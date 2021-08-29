@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "927402429158",
+    "project_id": "glory-wallpaper-de6ea",
+    "storage_bucket": "glory-wallpaper-de6ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927402429158:android:f9a4b6efef185ebfb28927",
+        "android_client_info": {
+          "package_name": "master.tool.glorywallpaper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927402429158-bjqgf724mkk5au0b3eqdapmgrh4e3sd0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "master.tool.glorywallpaper",
+            "certificate_hash": "7912b8601ff96ef4418973601f708a96cd2ca3c5"
+          }
+        },
+        {
+          "client_id": "927402429158-piundvass9dsp489kntchqurls1qb5pn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBAIrhIoI1ImGc4s_z8xeUwDAvl5zaOFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927402429158-piundvass9dsp489kntchqurls1qb5pn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "927402429158-7fa1l1ovdlkqhma5bnshqv5helc5e0fr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "master.tool.glorywallpaper"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,3 @@
+class HomeTabbarStrings{
+  String imageNames;
+}
