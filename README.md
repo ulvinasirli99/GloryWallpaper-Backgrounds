@@ -2,15 +2,15 @@
 
 A new Flutter project.
 
-* Update * 
+* Update 12/20/2021* 
 
-Local database errors fixed ...
-As an innovation, registration and login applications were made ...
-The application also eliminated freezes ...
-Errors on search page corrected ...
-A number of adjustments were made to the design ...
-Wallpapers have been replaced with more resolute images ...
-Push notification errors removed ...
+Local database errors fixed ... \n
+As an innovation, registration and login applications were made ...\n
+The application also eliminated freezes ...\n
+Errors on search page corrected ...\n
+A number of adjustments were made to the design ...\n
+Wallpapers have been replaced with more resolute images ...\n
+Push notification errors removed ...\n
 
 
 ![PluIxnYLXYJEd5A2OrlGwhbUZrDFGP5qOFNhWbOXbqbKaHiSsFIM1Wjzk7CIJJyJ1_0=w1536-h722-rw](https://user-images.githubusercontent.com/53689685/141647341-ffaa6090-9ba0-44b6-a05f-d4fc00615714.png)
