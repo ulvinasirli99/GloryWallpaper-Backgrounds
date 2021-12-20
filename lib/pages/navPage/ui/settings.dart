@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:battery/battery.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cmoon_icons/flutter_cmoon_icons.dart';
 import 'package:in_app_update/in_app_update.dart';
@@ -8,8 +9,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wallpaper_app_flutter/localizations/app_localizations.dart';
 import 'package:wallpaper_app_flutter/pages/navPage/ui/about.dart';
+import 'package:wallpaper_app_flutter/service/provider/authentication_provider.dart';
 import 'package:wallpaper_app_flutter/service/provider/choose_color_provider.dart';
-import 'package:wallpaper_app_flutter/utils/global/constants.dart';
 import 'package:wallpaper_app_flutter/widget/global/toasts.dart';
 
 import '../../../service/provider/theme_provider.dart';
@@ -96,11 +97,27 @@ class _SettingState extends State<Setting> {
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthenticationProvider>(
+      context,
+      listen: false,
+    );
     ChooseColorProvider colorProvider = ChooseColorProvider(color, context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(
+          color: Provider.of<Settings>(context).isDarkMode
+              ? Colors.white
+              : Colors.black,
+        ),
+        elevation: 0.0,
         title: Text(
           ApplicationLocalizations.of(context).translate('setting'),
+          style: TextStyle(
+            color: Provider.of<Settings>(context).isDarkMode
+                ? Colors.white
+                : Colors.black,
+          ),
         ),
       ),
       body: Container(
@@ -379,6 +396,53 @@ class _SettingState extends State<Setting> {
               color: Colors.grey,
               indent: 12,
               endIndent: 12,
+            ),
+            // Todo This line Logout Account....
+            GestureDetector(
+              onTap: () async {
+                User user = FirebaseAuth.instance.currentUser;
+                if (user != null) {
+                  var logut = authProvider.logoutAccountProvider();
+                  logut.whenComplete(() {
+                    error("Hesabdan uğurla çıxdı");
+                    Navigator.pop(context);
+                  });
+                } else {
+                  error('You do not have an active account.');
+                  Navigator.pop(context);
+                }
+              },
+              child: ListTile(
+                title: Text(
+                  'Logout Account',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: colorProvider.chooseSettingTextStyleColor(color),
+                  ),
+                ),
+                leading: Icon(
+                  Icons.logout,
+                  size: 30,
+                  color: Colors.redAccent,
+                ),
+                trailing: IconButton(
+                  icon: Icon(
+                    Icons.app_settings_alt_outlined,
+                    size: 30,
+                    color: Provider.of<Settings>(context).isDarkMode
+                        ? Colors.teal
+                        : Colors.redAccent,
+                  ),
+                  onPressed: _updateInfo?.updateAvailability ==
+                          UpdateAvailability.updateAvailable
+                      ? () {
+                          InAppUpdate.performImmediateUpdate()
+                              .catchError((e) => showSnack(e.toString()));
+                        }
+                      : null,
+                ),
+              ),
             ),
             //! This is line begin Admob Banner ....
             // Container(

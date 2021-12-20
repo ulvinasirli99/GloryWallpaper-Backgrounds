@@ -14,24 +14,22 @@ class _BackgroundState extends State<Background> {
   VideoPlayerController _playerController;
   VoidCallback playerListener;
 
-  void _createVideo() async{
+  void _createVideo() async {
     if (_playerController == null) {
-      _playerController = VideoPlayerController.asset('assets/ocean.mp4')
+      _playerController = VideoPlayerController.asset('assets/relenewvideo.mp4')
         ..initialize().then((value) => playerListener);
       _playerController.setVolume(0.0);
       _playerController.setLooping(true);
     }
 
     await _playerController.play();
-
   }
 
   @override
   void initState() {
     super.initState();
-    playerListener = (){
-      setState(() {
-      });
+    playerListener = () {
+      setState(() {});
     };
   }
 
@@ -53,11 +51,9 @@ class _BackgroundState extends State<Background> {
     super.deactivate();
   }
 
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return Container(
       height: size.height,
       width: size.width,
@@ -71,11 +67,11 @@ class _BackgroundState extends State<Background> {
                 child: SizedBox(
                   width: _playerController.value.size?.width ?? 0,
                   height: _playerController.value.size?.height ?? 0,
-                  child: (_playerController != null) ?
-                  VideoPlayer(
-                    _playerController,
-                  )
-                  : Container(),
+                  child: (_playerController != null)
+                      ? VideoPlayer(
+                          _playerController,
+                        )
+                      : Container(),
                 ),
               ),
             ),
@@ -83,8 +79,6 @@ class _BackgroundState extends State<Background> {
           ],
         ),
       ),
-
-
     );
   }
 }

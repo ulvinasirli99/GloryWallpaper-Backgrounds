@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:wallpaper_app_flutter/model/local/image_model.dart';
+import 'package:lottie/lottie.dart';
+import 'package:wallpaper_app_flutter/model/pro/img_model_pro.dart';
 import 'package:wallpaper_app_flutter/pages/main/pages/full_image.dart';
+import 'package:wallpaper_app_flutter/pages/main/widget/ui/network_error.dart';
 import 'package:wallpaper_app_flutter/service/http/api_provider.dart';
+import 'package:wallpaper_app_flutter/service/http/pro_image_api_provider.dart';
 import 'package:wallpaper_app_flutter/utils/global/constants.dart';
 
 class CategoryToImageList extends StatefulWidget {
@@ -16,9 +19,9 @@ class CategoryToImageList extends StatefulWidget {
 
 class _CategoryToImageListState extends State<CategoryToImageList> {
   var _gridController = ScrollController();
-  var hits = List<Hits>.empty(growable: true);
   int _page = pageNumber;
   String img;
+  var photos = List<Photo>.empty(growable: true);
 
   var imageLoadingSpinKit = SpinKitPulse(
     size: 60,
@@ -69,53 +72,51 @@ class _CategoryToImageListState extends State<CategoryToImageList> {
   }
 
   gridImageListView() {
-    return (hits.length > 0)
+    return (photos.length > 0)
         ? GridView.builder(
             controller: _gridController,
-            itemCount: hits.length + 1,
+            itemCount: photos.length + 1,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+              crossAxisCount: 3,
               mainAxisSpacing: 5,
               crossAxisSpacing: 5,
               childAspectRatio: 0.6,
             ),
             itemBuilder: (context, index) {
-              if (index == hits.length) {
+              if (index == photos.length) {
                 return Center(
-                    child: SizedBox(
-                  child: CircularProgressIndicator(),
-                  width: 30,
-                  height: 30,
-                ));
+                  child: SizedBox(
+                    child: CircularProgressIndicator(),
+                    width: 30,
+                    height: 30,
+                  ),
+                );
               }
               return Hero(
-                tag: hits[index].largeImageURL,
+                tag: photos[index].src.large2X,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FullImage(
-                          imgUrl: hits[index].largeImageURL,
-                            imgIndex: index,
-                          imgsList: hits,
-                          imageName: hits[index].user,
-                            
+                        builder: (ctx) => FullImage(
+                          imgUrl: photos[index].src.large2X,
+                          imgIndex: index,
+                          imgsList: photos,
+                          //Bura onsa isdemir
+                          imageName: photos[index].photographer,
                         ),
                       ),
                     );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 5, left: 2, right: 2),
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 5, left: 2, right: 2),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: FadeInImage(
-                          fit: BoxFit.cover,
-                          placeholder: AssetImage('assets/load.gif'),
-                          image: NetworkImage(hits[index].webformatURL),
-                        ),
+                    padding: EdgeInsets.only(top: 5, left: 2, right: 2),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: FadeInImage(
+                        fit: BoxFit.cover,
+                        placeholder: AssetImage('assets/load.gif'),
+                        image: NetworkImage(photos[index].src.portrait),
                       ),
                     ),
                   ),
@@ -124,24 +125,39 @@ class _CategoryToImageListState extends State<CategoryToImageList> {
             },
           )
         : Center(
-            child: CircularProgressIndicator(),
+            child: Lottie.asset(
+              'assets/circle_loading_lottie.json',
+              width: 70,
+              height: 70,
+            ),
           );
   }
 
+  //Todo Sekillerin ele gec gelmesi try ve catch ile baglidir cunki search da ele deyil
   _loadSearchImages(String query) async {
-    var model = await ApiProvider().getSearchedImages(query, ++_page);
-    hits.addAll(model.hits);
-    setState(() {});
+    try {
+      var model =
+          await ProImageApiProvider().getSearchedProImages(query, ++_page);
+      photos.addAll(model.photos);
+      setState(() {});
+    } catch (e) {}
   }
 
   _scrollListener() {
     if (_gridController.offset >= _gridController.position.maxScrollExtent &&
         !_gridController.position.outOfRange) {
-      _loadSearchImages(img);
+      _loadSearchImages(rApiTexts);
     }
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    resetSearch();
+  }
+
   resetSearch() {
-    hits.clear();
+    photos.clear();
     _page = 0;
   }
 }

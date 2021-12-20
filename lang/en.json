@@ -36,5 +36,6 @@
     "no_fav":"You have no Favorites",
     "clear_history": "Clear History",
     "point_dialog": "Premium point is not enough. You can open the box and earn coins.",
-    "app_version": "Your software version."
+    "app_version": "Your software version.",
+    "exit":"Exit"
 }

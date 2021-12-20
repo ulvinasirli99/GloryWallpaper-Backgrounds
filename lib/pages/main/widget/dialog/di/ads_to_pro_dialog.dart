@@ -4,17 +4,18 @@ import 'package:lottie/lottie.dart';
 import 'package:wallpaper_app_flutter/utils/share/share.dart';
 
 class AdsToProDialog extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
       elevation: 0.0,
+      insetAnimationCurve: Curves.bounceInOut,
       backgroundColor: Colors.transparent,
       child: dialocontent(context),
     );
   }
 }
-Center dialocontent(BuildContext context){
+
+Center dialocontent(BuildContext context) {
   return Center(
     child: ClipRRect(
       borderRadius: BorderRadius.circular(14),
@@ -50,7 +51,7 @@ Center dialocontent(BuildContext context){
             ),
             ListTile(
               title: Text(
-                "5 million wallpapers",
+                "10 million wallpapers",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,
@@ -108,8 +109,8 @@ Center dialocontent(BuildContext context){
                     size: 40,
                     color: Colors.white,
                   ),
-                  onPressed: (){
-                    PremiumGloryGet();
+                  onPressed: () {
+                    premiumGloryGet();
                   },
                 ),
               ],

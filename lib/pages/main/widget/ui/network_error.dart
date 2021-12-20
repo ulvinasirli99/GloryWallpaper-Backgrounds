@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cmoon_icons/flutter_cmoon_icons.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
+// ignore: must_be_immutable
 class WaitNetworkData extends StatelessWidget {
   var waitSpin = SpinKitCircle(
     duration: Duration(milliseconds: 1000),

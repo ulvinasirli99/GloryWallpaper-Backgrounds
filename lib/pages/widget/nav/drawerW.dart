@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpaper_app_flutter/localizations/app_localizations.dart';
@@ -9,13 +10,11 @@ import 'package:wallpaper_app_flutter/pages/main/widget/dialog/di/custom_relase_
 import 'package:wallpaper_app_flutter/pages/navPage/ui/about.dart';
 import 'package:wallpaper_app_flutter/pages/navPage/ui/feedback.dart';
 import 'package:wallpaper_app_flutter/pages/navPage/ui/settings.dart';
-import 'package:wallpaper_app_flutter/pages/proWallpaperPage/pro_images_page.dart';
 import 'package:wallpaper_app_flutter/pages/widget/popup/menu_item.dart';
 import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/utils/global/constants.dart';
 import 'package:wallpaper_app_flutter/utils/share/share.dart';
 import 'ads_no_widget.dart';
-import 'darwer_pro_tile.dart';
 
 class DrawerWidegts extends Drawer {
   @override
@@ -102,9 +101,20 @@ class DrawerWidegts extends Drawer {
           ),
           Container(
             decoration: BoxDecoration(
-              color: Provider.of<Settings>(context).isDarkMode
-                  ? Colors.black
-                  : Colors.white,
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: Provider.of<Settings>(context).isDarkMode
+                    ? [
+                        Colors.black,
+                        Colors.black,
+                      ]
+                    : [
+                        Colors.lightBlue.shade400,
+                        Colors.indigo.shade400,
+                        Colors.blue.shade400,
+                      ],
+              ),
             ),
             height: MediaQuery.of(context).size.height,
             child: LayoutBuilder(
@@ -161,7 +171,7 @@ class DrawerWidegts extends Drawer {
                           lottiePath: "assets/gif.json",
                           tittle: "Premium Glory",
                           function: () {
-                            PremiumGloryGet();
+                            premiumGloryGet();
                           },
                         ),
                         Divider(
@@ -217,22 +227,29 @@ class DrawerWidegts extends Drawer {
                           indent: 12,
                           endIndent: 12,
                         ),
-                        // MenuItem(
-                        //   color: Color(0xffcddc39),
-                        //   icon: Icons.monetization_on,
-                        //   title: AppLocaizations.of(context)
-                        //       .translate('removeads'),
-                        //   onTap: () {
-                        //     error("Gelecek Yaxinda Darixmiyinnn");
-                        //   },
-                        // ),
                         MenuItem(
-                          color: Color(0xffcddc39),
-                          icon: Icons.add_box_outlined,
+                          color: Colors.indigo.shade400,
+                          icon: Icons.my_library_books_sharp,
                           title: ApplicationLocalizations.of(context)
                               .translate('about_app'),
                           onTap: () {
                             getDialogOkayButtonSave(context);
+                          },
+                        ),
+                        Divider(
+                          height: 10,
+                          thickness: 0.5,
+                          color: Colors.grey,
+                          indent: 12,
+                          endIndent: 12,
+                        ),
+                        MenuItem(
+                          color: Colors.amber.shade600,
+                          icon: Icons.exit_to_app,
+                          title: ApplicationLocalizations.of(context)
+                              .translate('exit'),
+                          onTap: () {
+                            SystemNavigator.pop();
                           },
                         ),
                       ],
@@ -247,7 +264,7 @@ class DrawerWidegts extends Drawer {
     );
   }
 
-  void CustomRelaseAppDetailDialog(BuildContext context) {
+  void customRelaseAppDetailDialog(BuildContext context) {
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -257,10 +274,12 @@ class DrawerWidegts extends Drawer {
         description:
             "I accept the terms and conditions of use of Glory Wallpaper and I agree not to use it for anything bad.",
         buttonText: "Okay",
+        childWidget: AboutPage(),
       ),
     );
   }
 
+  // ignore: missing_return
   Future<bool> getDialogOkayButtonSave(BuildContext context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var btnResult = preferences.getBool("okayButtonSave");
@@ -272,109 +291,7 @@ class DrawerWidegts extends Drawer {
         ),
       );
     } else {
-      CustomRelaseAppDetailDialog(context);
+      customRelaseAppDetailDialog(context);
     }
   }
 }
-
-/*
-Column(
-              children: <Widget>[
-                MenuItem(
-                  icon: Icons.home,
-                  color: Color(0xff388e3c),
-                  title: AppLocaizations.of(context).translate('home'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Home(),
-                      ),
-                    );
-                  },
-                ),
-                MenuItem(
-                  color: Color(0xffff3d00),
-                  icon: Icons.favorite,
-                  title: AppLocaizations.of(context).translate('favorite'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FavoritePage(),
-                      ),
-                    );
-                  },
-                ),
-                Divider(
-                  height: 10,
-                  thickness: 0.5,
-                  color: Colors.grey,
-                  indent: 12,
-                  endIndent: 12,
-                ),
-                MenuItem(
-                  color: Color(0xffffc400),
-                  icon: Icons.settings,
-                  title: AppLocaizations.of(context).translate('setting'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Setting(),
-                      ),
-                    );
-                  },
-                ),
-                MenuItem(
-                  color: Color(0xffafb4b2),
-                  icon: Icons.feedback,
-                  title: AppLocaizations.of(context).translate('feedback'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FeedbackPage(),
-                      ),
-                    );
-                  },
-                ),
-                MenuItem(
-                  color: Colors.black,
-                  icon: Icons.share,
-                  title: AppLocaizations.of(context).translate('share'),
-                  onTap: () async {
-                    await shareText(appShareUrl);
-                  },
-                ),
-                Divider(
-                  height: 10,
-                  thickness: 0.5,
-                  color: Colors.grey,
-                  indent: 12,
-                  endIndent: 12,
-                ),
-                MenuItem(
-                  color: Color(0xffcddc39),
-                  icon: Icons.monetization_on,
-                  title: AppLocaizations.of(context).translate('removeads'),
-                  onTap: () {
-                    error("Gelecek Yaxinda Darixmiyinnn");
-                  },
-                ),
-                MenuItem(
-                  color: Color(0xffcddc39),
-                  icon: Icons.add_box_outlined,
-                  title:  AppLocaizations.of(context).translate('about_app'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AboutPage(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-*/

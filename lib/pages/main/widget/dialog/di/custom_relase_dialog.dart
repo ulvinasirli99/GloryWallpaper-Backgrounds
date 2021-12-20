@@ -6,10 +6,16 @@ import '../conts/consts.dart';
 class CustomRelaseDialog extends StatelessWidget {
   final String title, description, buttonText;
   final Image image;
+  final Widget childWidget;
 
-  const CustomRelaseDialog(
-      {Key key, this.title, this.description, this.buttonText, this.image})
-      : super(key: key);
+  const CustomRelaseDialog({
+    Key key,
+    this.title,
+    this.description,
+    this.buttonText,
+    this.image,
+    this.childWidget,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +76,11 @@ class CustomRelaseDialog extends StatelessWidget {
                 child: FlatButton(
                   onPressed: () {
                     dialogOkayButtonPreferences();
-                    Navigator.of(context).pop(); // To close the dialog
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (ctx) => childWidget),
+                    );
                   },
                   child: Text(buttonText),
                 ),

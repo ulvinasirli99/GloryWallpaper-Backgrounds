@@ -90,7 +90,7 @@ class CustomAlertDialog extends StatelessWidget {
             new EdgeInsets.fromLTRB(
                 24.0, 24.0, 24.0, content == null ? 20.0 : 0.0),
         child: new DefaultTextStyle(
-          style: Theme.of(context).textTheme.title,
+          style: Theme.of(context).textTheme.bodyText1,
           child: new Semantics(child: title, namesRoute: true),
         ),
       ));
@@ -101,7 +101,7 @@ class CustomAlertDialog extends StatelessWidget {
         child: new Padding(
           padding: contentPadding,
           child: new DefaultTextStyle(
-            style: Theme.of(context).textTheme.subhead,
+            style: Theme.of(context).textTheme.bodyText1,
             child: content,
           ),
         ),

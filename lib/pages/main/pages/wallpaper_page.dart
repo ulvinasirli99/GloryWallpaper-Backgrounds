@@ -44,6 +44,7 @@ class _WallpaperPageState extends State<WallpaperPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Colors.transparent,
         title: Text("Glory Wallpaper"),
         elevation: 0.0,
         actions: [
@@ -77,7 +78,7 @@ class _WallpaperPageState extends State<WallpaperPage> {
       // Evvel burda buildPageView vard
       ///Todo Lakin bize her defe page render olmasin deye
       ///StackedView isletdik ve bunun syaesinde
-      ///Every render life - qarsini almisiq olduq...........
+      ///Evrey render life - qarsini almisiq olduq...........
       body: IndexedStack(
         index: _activeBottomNavigatorPositin,
         children: [
@@ -121,7 +122,6 @@ class _WallpaperPageState extends State<WallpaperPage> {
 
   void toProGloryCustomDialog(BuildContext context) {
     showDialog(
-      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) => AdsToProDialog(),
     );

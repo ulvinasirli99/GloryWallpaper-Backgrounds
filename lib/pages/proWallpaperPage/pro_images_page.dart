@@ -13,7 +13,6 @@ import 'package:wallpaper_app_flutter/pages/main/widget/ui/network_error.dart';
 import 'package:wallpaper_app_flutter/service/http/pro_image_api_provider.dart';
 import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/utils/global/constants.dart';
-import 'package:wallpaper_app_flutter/widget/global/toasts.dart';
 
 class ProImagesPage extends StatefulWidget {
   @override

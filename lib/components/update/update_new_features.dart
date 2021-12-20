@@ -30,7 +30,7 @@ class UpdateNewFeature extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: screenSzie.height * 0.04),
-                    child: CustOMText(
+                    child: CustomText(
                       text: "New Update Features",
                       textAlign: TextAlign.center,
                       textSize: 18.0,
@@ -46,7 +46,7 @@ class UpdateNewFeature extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
                       children: [
-                        CustOMText(
+                        CustomText(
                           text: "*",
                           textSize: 30,
                           fontWeight: FontWeight.w700,
@@ -56,7 +56,7 @@ class UpdateNewFeature extends StatelessWidget {
                           width: 10,
                         ),
                         Expanded(
-                          child: CustOMText(
+                          child: CustomText(
                             text: "Image resolution has been increased",
                             textSize: 18,
                             textAlign: TextAlign.center,
@@ -82,7 +82,7 @@ class UpdateNewFeature extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
                       children: [
-                        CustOMText(
+                        CustomText(
                           text: "*",
                           textSize: 30,
                           fontWeight: FontWeight.w700,
@@ -92,7 +92,7 @@ class UpdateNewFeature extends StatelessWidget {
                           width: 10,
                         ),
                         Expanded(
-                          child: CustOMText(
+                          child: CustomText(
                             text: "The search page has been updated",
                             textSize: 18,
                             textAlign: TextAlign.center,
@@ -118,7 +118,7 @@ class UpdateNewFeature extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
                       children: [
-                        CustOMText(
+                        CustomText(
                           text: "*",
                           textSize: 30,
                           fontWeight: FontWeight.w700,
@@ -128,7 +128,7 @@ class UpdateNewFeature extends StatelessWidget {
                           width: 10,
                         ),
                         Expanded(
-                          child: CustOMText(
+                          child: CustomText(
                             text:
                                 "Innovations were made in the design of the main page",
                             textSize: 18,
@@ -155,7 +155,7 @@ class UpdateNewFeature extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
                       children: [
-                        CustOMText(
+                        CustomText(
                           text: "*",
                           textSize: 30,
                           fontWeight: FontWeight.w700,
@@ -165,7 +165,7 @@ class UpdateNewFeature extends StatelessWidget {
                           width: 10,
                         ),
                         Expanded(
-                          child: CustOMText(
+                          child: CustomText(
                             text: "The link between the pages has been fixed",
                             textSize: 18,
                             textAlign: TextAlign.center,
@@ -191,7 +191,7 @@ class UpdateNewFeature extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
                       children: [
-                        CustOMText(
+                        CustomText(
                           text: "*",
                           textSize: 30,
                           fontWeight: FontWeight.w700,
@@ -201,7 +201,7 @@ class UpdateNewFeature extends StatelessWidget {
                           width: 10,
                         ),
                         Expanded(
-                          child: CustOMText(
+                          child: CustomText(
                             text: "Auto update added",
                             textSize: 18,
                             textAlign: TextAlign.center,
@@ -227,7 +227,7 @@ class UpdateNewFeature extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
                       children: [
-                        CustOMText(
+                        CustomText(
                           text: "*",
                           textSize: 30,
                           fontWeight: FontWeight.w700,
@@ -237,7 +237,7 @@ class UpdateNewFeature extends StatelessWidget {
                           width: 10,
                         ),
                         Expanded(
-                          child: CustOMText(
+                          child: CustomText(
                             text: "Image Slider with Animation",
                             textSize: 18,
                             textAlign: TextAlign.center,
@@ -263,7 +263,7 @@ class UpdateNewFeature extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 12),
                     child: Row(
                       children: [
-                        CustOMText(
+                        CustomText(
                           text: "*",
                           textSize: 30,
                           fontWeight: FontWeight.w700,
@@ -273,7 +273,7 @@ class UpdateNewFeature extends StatelessWidget {
                           width: 10,
                         ),
                         Expanded(
-                          child: CustOMText(
+                          child: CustomText(
                             text: "Dark Mode bugs fixed",
                             textSize: 18,
                             textAlign: TextAlign.center,

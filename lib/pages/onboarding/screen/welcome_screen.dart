@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallpaper_app_flutter/pages/auth/login.dart';
 import 'package:wallpaper_app_flutter/pages/onboarding/components/bg.dart';
 import 'package:wallpaper_app_flutter/splash/splash_screen.dart';
 import 'package:wallpaper_app_flutter/pages/main/pages/wallpaper_page.dart';
+import 'package:wallpaper_app_flutter/widget/text/gradinet_text.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -159,13 +161,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           Text(
                             'More than 2 million wallpapers',
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500),
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ],
                       ),
-                      //Todo This is line Eye catching page 
+                      //Todo This is line Eye catching page
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -269,27 +272,78 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                   ),
                                   onPressed: () => _moveToNextPage(),
                                 )
-                              : FlatButton(
-                                  color: Colors.green,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(24.0),
+                              : Column(
+                                  children: [
+                                    FlatButton(
+                                      color: Colors.green,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(24.0),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        'Start',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        WallpaperPage()));
+                                        buttonNextActivityStartButton();
+                                      },
                                     ),
-                                  ),
-                                  child: Text(
-                                    'Start',
-                                    style: TextStyle(
-                                      color: Colors.white,
+                                    const SizedBox(
+                                      height: 8,
                                     ),
-                                  ),
-                                  onPressed: () async {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                WallpaperPage()));
-                                    buttonNextActivityStartButton();
-                                  },
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (ctx) => LoginScreen(),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        width: double.infinity,
+                                        height: 50,
+                                        margin: EdgeInsets.only(
+                                          left: 35,
+                                          right: 35,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(36),
+                                          border: Border.all(
+                                            width: 1.2,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        child: Center(
+                                          child: GradientText(
+                                            text: 'Create Account',
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                Colors.green.shade400,
+                                                Colors.teal.shade200,
+                                                Colors.indigo.shade400,
+                                                Colors.purple.shade400,
+                                              ],
+                                            ),
+                                            style: TextStyle(
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                         ),
                       ],

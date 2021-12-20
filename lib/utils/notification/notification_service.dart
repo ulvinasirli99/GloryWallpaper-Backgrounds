@@ -10,7 +10,7 @@ Future<void> showNotificationMediaStyle(String imageName) async {
   var androidPlatformChannelSpecifics = AndroidNotificationDetails(
     'media channel id',
     'media channel name',
-    'media channel description',
+    channelDescription: 'media channel description',
     color: Colors.red,
     enableLights: true,
     largeIcon: DrawableResourceAndroidBitmap('mipmap/ic_launcher'),
@@ -29,7 +29,7 @@ Future<void> showNotificationMediaStyle(String imageName) async {
 */
 
 showNotification(String imageName) async {
-  var android = new AndroidNotificationDetails('id', 'channel ', 'description',
+  var android = new AndroidNotificationDetails('id', 'channel ', channelDescription: 'description',
       priority: Priority.high, importance: Importance.max);
   var iOS = new IOSNotificationDetails();
   var platform = new NotificationDetails(android: android, iOS: iOS);

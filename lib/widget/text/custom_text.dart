@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CustOMText extends StatelessWidget {
+class CustomText extends StatelessWidget {
   final String text;
   final double textSize;
   final Color color;
   final FontWeight fontWeight;
   final TextAlign textAlign;
 
-  CustOMText({
+  CustomText({
     Key key,
     @required this.text,
     this.textSize,

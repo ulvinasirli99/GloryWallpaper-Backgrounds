@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -22,9 +23,10 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   nextEnrolledPage() async {
+    User user = FirebaseAuth.instance.currentUser;
     SharedPreferences preferences = await SharedPreferences.getInstance();
     bool baseResult = preferences.getBool("start");
-    if (baseResult == true) {
+    if (baseResult == true || user!=null) {
       return Navigator.pushReplacement(
         context,
         new MaterialPageRoute(
@@ -41,55 +43,86 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
-  final spinKit = SpinKitCubeGrid(
+  final spinKit = SpinKitDancingSquare(
     color: Colors.white,
-    size: 40,
+    size: 50,
   );
 
   @override
   void initState() {
     super.initState();
     animationController =
-        new AnimationController(vsync: this, duration: Duration(seconds: 4));
-    animation =
-        new CurvedAnimation(parent: animationController, curve: Curves.easeOut);
+        new AnimationController(vsync: this, duration: Duration(seconds: 3));
+    animation = new CurvedAnimation(
+        parent: animationController, curve: Curves.bounceIn);
 
     animation.addListener(() => this.setState(() {}));
     animationController.forward();
 
     startTimeNextActivity();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.indigoAccent[400],
       body: Stack(
         fit: StackFit.expand,
-        children: <Widget>[
-          new Column(
+        children: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Colors.indigoAccent.shade200,
+                  Colors.indigoAccent.shade400,
+                  Colors.indigoAccent,
+                ],
+              ),
+            ),
+          ),
+          Column(
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(bottom: 50),
-                width: 70,
-                height: 70,
-                child: Center(
-                  child: spinKit,
+              ScaleTransition(
+                scale: Tween(begin: 0.6, end: 1.6).animate(
+                  CurvedAnimation(
+                    parent: animationController,
+                    curve: Curves.easeInCirc,
+                  ),
+                ),
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 50),
+                  width: 70,
+                  height: 70,
+                  child: Center(
+                    child: spinKit,
+                  ),
                 ),
               ),
             ],
           ),
-          new Column(
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(60),
-                child: Image.asset(
-                  'assets/darwlogo.png',
-                  width: animation.value * 120,
-                  height: animation.value * 120,
+              ScaleTransition(
+                scale: Tween(begin: 1.6, end: 0.6).animate(
+                  CurvedAnimation(
+                    parent: animationController,
+                    curve: Curves.easeInCirc,
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(60),
+                  child: Image.asset(
+                    'assets/darwlogo.png',
+                    width: 120,
+                    height: 120,
+                  ),
                 ),
               ),
             ],

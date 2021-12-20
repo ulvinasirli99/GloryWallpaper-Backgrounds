@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:wallpaper_app_flutter/localizations/app_localizations.dart';
-import 'package:wallpaper_app_flutter/model/local/image_model.dart';
-import 'package:wallpaper_app_flutter/service/http/api_provider.dart';
+import 'package:wallpaper_app_flutter/model/pro/img_model_pro.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wallpaper_app_flutter/service/http/pro_image_api_provider.dart';
 import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/widget/global/toasts.dart';
-
 import 'full_image.dart';
 
 class SearchPage extends StatefulWidget {
@@ -21,8 +20,9 @@ class _SearchPageState extends State<SearchPage> {
   var formKey = GlobalKey<FormState>();
   var showSearchResult = false;
   var _gridController = ScrollController();
-  var hits = List<Hits>.empty(growable: true);
+  var photos = List<Photo>.empty(growable: true);
   int _page = 0;
+  FocusNode focusNode = FocusNode();
 
   var imageLoadingSpinKit = SpinKitPulse(
     size: 60,
@@ -39,7 +39,6 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _searchController.dispose();
   }
@@ -47,15 +46,20 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          automaticallyImplyLeading: false,
           title: Container(
             color: Provider.of<Settings>(context).isDarkMode
                 ? Colors.black
-                : Colors.white,
+                : Colors.transparent,
             child: Form(
               key: formKey,
               child: TextField(
                 autofocus: false,
+                focusNode: focusNode,
                 style: TextStyle(
                   color: Provider.of<Settings>(context).isDarkMode
                       ? Colors.white
@@ -83,17 +87,28 @@ class _SearchPageState extends State<SearchPage> {
                   _saveSuggestions(value);
                   resetSearch();
                   _loadSearchImages(value);
+                  FocusScope.of(context).unfocus();
+                  setState(() {});
                 },
               ),
             ),
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(Icons.close),
+              icon: Icon(
+                Icons.close,
+                color: Provider.of<Settings>(context).isDarkMode
+                    ? Colors.white
+                    : Colors.black,
+              ),
               onPressed: () {
                 _searchController.clear();
                 resetSearch();
                 showSearchResult = false;
+                if (focusNode.hasFocus) {
+                  FocusScope.of(context).unfocus();
+                  setState(() {});
+                }
                 setState(() {});
               },
             )
@@ -153,52 +168,51 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   imagesGridList() {
-    return (hits.length > 0)
+    return (photos.length > 0)
         ? GridView.builder(
             controller: _gridController,
+            itemCount: photos.length + 1,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+              crossAxisCount: 3,
               mainAxisSpacing: 5,
               crossAxisSpacing: 5,
               childAspectRatio: 0.6,
             ),
-            itemCount: hits.length + 1,
             itemBuilder: (context, index) {
-              if (index == hits.length) {
+              if (index == photos.length) {
                 return Center(
-                    child: SizedBox(
-                  child: CircularProgressIndicator(),
-                  width: 30,
-                  height: 30,
-                ));
+                  child: SizedBox(
+                    child: CircularProgressIndicator(),
+                    width: 30,
+                    height: 30,
+                  ),
+                );
               }
               return Hero(
-                tag: hits[index].largeImageURL,
+                tag: photos[index].src.large2X,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FullImage(
-                          imgUrl: hits[index].largeImageURL,
-                             imgIndex: index,
-                          imgsList: hits,
-                          imageName: hits[index].user,
+                        builder: (ctx) => FullImage(
+                          imgUrl: photos[index].src.large2X,
+                          imgIndex: index,
+                          imgsList: photos,
+                          //Bura onsa isdemir
+                          imageName: photos[index].photographer,
                         ),
                       ),
                     );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 5, left: 2, right: 2),
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 5, left: 2, right: 2),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: FadeInImage(
-                          fit: BoxFit.cover,
-                          placeholder: AssetImage('assets/load.gif'),
-                          image: NetworkImage(hits[index].webformatURL),
-                        ),
+                    padding: EdgeInsets.only(top: 5, left: 2, right: 2),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: FadeInImage(
+                        fit: BoxFit.cover,
+                        placeholder: AssetImage('assets/load.gif'),
+                        image: NetworkImage(photos[index].src.portrait),
                       ),
                     ),
                   ),
@@ -212,14 +226,17 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   resetSearch() {
-    hits.clear();
+    photos.clear();
     _page = 0;
   }
 
   _loadSearchImages(String query) async {
-    var model = await ApiProvider().getSearchedImages(query, ++_page);
-    hits.addAll(model.hits);
-    setState(() {});
+    try {
+      var model =
+          await ProImageApiProvider().getSearchedProImages(query, ++_page);
+      photos.addAll(model.photos);
+      setState(() {});
+    } catch (e) {}
   }
 
   _scrollListener() {
@@ -231,15 +248,15 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<List<String>> _getSuggestions() async {
     var prefs = await SharedPreferences.getInstance();
-    List<String> suggestions =
-        prefs.getStringList('suggestions_list') ?? List<String>();
+    List<String> suggestions = prefs.getStringList('suggestions_list') ??
+        List<String>.empty(growable: true);
     return suggestions;
   }
 
   _saveSuggestions(String value) async {
     var prefs = await SharedPreferences.getInstance();
-    List<String> suggestions =
-        prefs.getStringList('suggestions_list') ?? List<String>();
+    List<String> suggestions = prefs.getStringList('suggestions_list') ??
+        List<String>.empty(growable: true);
     if (!suggestions.contains(value)) {
       suggestions.insert(0, value);
     } else {
