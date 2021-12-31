@@ -1,130 +1,165 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:octo_image/octo_image.dart';
+import 'package:random_color/random_color.dart';
 import 'package:wallpaper_app_flutter/model/local/categorie_model.dart';
+import 'package:wallpaper_app_flutter/model/local/catgory_color_model.dart';
 import 'package:wallpaper_app_flutter/pages/main/widget/ui/category_to_imagelist.dart';
 import 'package:wallpaper_app_flutter/service/http/category_data.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:wallpaper_app_flutter/utils/global/constants.dart';
+import 'package:wallpaper_app_flutter/service/http/local/catgory_color_data.dart';
+import 'package:wallpaper_app_flutter/widget/text/custom_text.dart';
 
 class CategoryPage extends StatefulWidget {
+  const CategoryPage({Key key}) : super(key: key);
+
   @override
   _CategoryPageState createState() => _CategoryPageState();
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  List<CatgoryColorModel> colorModelList = new List.empty(growable: true);
   List<CategorieModel> categories = new List.empty(growable: true);
-  // AdmobInterstitial interstitialAd;
 
   @override
   void initState() {
     super.initState();
+    colorModelList = getCatgoryColors();
     categories = getCategories();
-    // interstitialAd = AdmobInterstitial(
-    //   adUnitId: INTERSITITAL_ID,
-    //   listener: (AdmobAdEvent event, Map<String, dynamic> args) {
-    //     if (event == AdmobAdEvent.closed) interstitialAd.load();
-    //     handleEvent(event, args, 'Interstitial');
-    //   },
-    // );
-    //
-    // interstitialAd.load();
   }
-
-  // void handleEvent(
-  //     AdmobAdEvent event, Map<String, dynamic> args, String adType) {
-  //   switch (event) {
-  //     case AdmobAdEvent.loaded:
-  //       print("Loaded");
-  //       break;
-  //     case AdmobAdEvent.opened:
-  //       print("Opend");
-  //       break;
-  //     case AdmobAdEvent.closed:
-  //       print("Closed");
-  //       break;
-  //     case AdmobAdEvent.failedToLoad:
-  //       print("Failed");
-  //       break;
-  //     default:
-  //   }
-  // }
-  //
-  // @override
-  // void dispose() {
-  //   interstitialAd.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: AnimationLimiter(
-        child: ListView.builder(
-          itemCount: categories.length,
-          scrollDirection: Axis.vertical,
-          itemBuilder: (BuildContext context, int index) {
-            return AnimationConfiguration.staggeredList(
-              delay: Duration(milliseconds: 500),
-              duration: Duration(milliseconds: 2000),
-              position: index,
-              child: SlideAnimation(
-                duration: Duration(milliseconds: 7000),
-                verticalOffset: 50.0,
-                child: FadeInAnimation(
-                  delay: Duration(milliseconds: 500),
-                  duration: Duration(milliseconds: 2000),
-                  child: InkWell(
-                    onTap: () async {
-                      //Todo Thhis is loine intersitital ads service begin
-                      // if (await interstitialAd.isLoaded) {
-                      //   interstitialAd.show();
-                      // } else {
-                      //   print("Loaded");
-                      // }
+      backgroundColor: Colors.white,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 10, top: 25),
+            child: CustomText(
+              text: 'CATEGORY',
+              textSize: 26,
+              color: Colors.black,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            width: double.infinity,
+            height: 50,
+            // color: Colors.red,
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: colorModelList.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (ctx, index) {
+                  return GestureDetector(
+                    onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => CategoryToImageList(
-                            imageUrl: categories[index].categorieName,
+                            imageUrl: colorModelList[index].categorieName,
                           ),
                         ),
                       );
                     },
-                    child: Container(
-                      margin: EdgeInsets.only(
-                        top: 7,
-                        left: 12,
-                        right: 10,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 10,
                       ),
-                      width: MediaQuery.of(context).size.width,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          12,
-                        ),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            categories[index].imgUrl,
-                          ),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: colorModelList[index].colorName,
                         ),
                       ),
-                      child: Center(
-                        child: Text(
-                          categories[index].categorieName,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: GridView.builder(
+              itemCount: categories.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 1,
+                mainAxisSpacing: 5,
+              ),
+              itemBuilder: (ctx, position) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CategoryToImageList(
+                          imageUrl: categories[position].categorieName,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        width: 120,
+                        height: 90,
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            OctoImage(
+                              fit: BoxFit.cover,
+                              fadeInCurve: Curves.easeInCubic,
+                              fadeOutCurve: Curves.easeOutSine,
+                              image: NetworkImage(categories[position].imgUrl),
+                              progressIndicatorBuilder: (context, progress) {
+                                return Center(
+                                  child: Lottie.asset(
+                                    'assets/circle_loading_lottie.json',
+                                    width: 70,
+                                    height: 70,
+                                  ),
+                                );
+                              },
+                              errorBuilder: (context, error, stacktrace) =>
+                                  Center(
+                                child: Icon(
+                                  Icons.error,
+                                  size: 40,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.center,
+                              child: CustomText(
+                                text: categories[position].categorieName,
+                                textSize: 28,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            );
-          },
-        ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

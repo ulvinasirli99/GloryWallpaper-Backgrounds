@@ -1,7 +1,7 @@
 import 'package:wallpaper_app_flutter/model/local/categorie_model.dart';
 
 List<CategorieModel> getCategories() {
-  List<CategorieModel> categories = new List();
+  List<CategorieModel> categories = new List.empty(growable: true);
 
   CategorieModel categorieModel = new CategorieModel();
 
@@ -128,6 +128,51 @@ List<CategorieModel> getCategories() {
   categorieModel.categorieName = "Smoke";
   categories.add(categorieModel);
   categorieModel = new CategorieModel();
+
+//yeniler
+  categorieModel.imgUrl =
+      "https://images.pexels.com/photos/2110951/pexels-photo-2110951.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+  categorieModel.categorieName = "Abstract";
+  categories.add(categorieModel);
+  categorieModel = new CategorieModel();
+
+    categorieModel.imgUrl =
+      "https://images.pexels.com/photos/5797908/pexels-photo-5797908.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260";
+  categorieModel.categorieName = "Minimal";
+  categories.add(categorieModel);
+  categorieModel = new CategorieModel();
+
+    categorieModel.imgUrl =
+      "https://images.pexels.com/photos/76969/cold-front-warm-front-hurricane-felix-76969.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260";
+  categorieModel.categorieName = "Space";
+  categories.add(categorieModel);
+  categorieModel = new CategorieModel();
+
+    categorieModel.imgUrl =
+      "https://images.pexels.com/photos/4340053/pexels-photo-4340053.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260";
+  categorieModel.categorieName = "Glitter";
+  categories.add(categorieModel);
+  categorieModel = new CategorieModel();
+
+      categorieModel.imgUrl =
+      "https://images.pexels.com/photos/3536526/pexels-photo-3536526.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260";
+  categorieModel.categorieName = "Night";
+  categories.add(categorieModel);
+  categorieModel = new CategorieModel();
+
+       categorieModel.imgUrl =
+      "https://images.pexels.com/photos/1170986/pexels-photo-1170986.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260";
+  categorieModel.categorieName = "Cat";
+  categories.add(categorieModel);
+  categorieModel = new CategorieModel();
+       categorieModel.imgUrl =
+      "https://images.pexels.com/photos/736230/pexels-photo-736230.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500";
+  categorieModel.categorieName = "Flower";
+  categories.add(categorieModel);
+  categorieModel = new CategorieModel();
+
+
+
 
   return categories;
 }
