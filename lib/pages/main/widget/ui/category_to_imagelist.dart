@@ -3,15 +3,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:lottie/lottie.dart';
 import 'package:wallpaper_app_flutter/model/pro/img_model_pro.dart';
 import 'package:wallpaper_app_flutter/pages/main/pages/full_image.dart';
-import 'package:wallpaper_app_flutter/pages/main/widget/ui/network_error.dart';
-import 'package:wallpaper_app_flutter/service/http/api_provider.dart';
-import 'package:wallpaper_app_flutter/service/http/pro_image_api_provider.dart';
+import 'package:wallpaper_app_flutter/service/http/image/pro_image_api_provider.dart';
 import 'package:wallpaper_app_flutter/utils/global/constants.dart';
+import 'package:wallpaper_app_flutter/widget/button/custom_back_button.dart';
 
 class CategoryToImageList extends StatefulWidget {
-  String imageUrl;
+  String? imageUrl;
 
-  CategoryToImageList({Key key, this.imageUrl}) : super(key: key);
+  CategoryToImageList({Key? key, this.imageUrl}) : super(key: key);
 
   @override
   _CategoryToImageListState createState() => _CategoryToImageListState();
@@ -20,8 +19,8 @@ class CategoryToImageList extends StatefulWidget {
 class _CategoryToImageListState extends State<CategoryToImageList> {
   var _gridController = ScrollController();
   int _page = pageNumber;
-  String img;
-  var photos = List<Photo>.empty(growable: true);
+  String? img;
+  List<Photo>? photos = List<Photo>.empty(growable: true);
 
   var imageLoadingSpinKit = SpinKitPulse(
     size: 60,
@@ -35,7 +34,7 @@ class _CategoryToImageListState extends State<CategoryToImageList> {
     resetSearch();
     img = widget.imageUrl;
     _gridController.addListener(_scrollListener);
-    _loadSearchImages(img);
+    _loadSearchImages(img!);
   }
 
   @override
@@ -51,20 +50,7 @@ class _CategoryToImageListState extends State<CategoryToImageList> {
           Positioned(
             left: 10.0,
             top: 35.0,
-            child: GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.white70,
-                ),
-                width: 50,
-                height: 50,
-                child: Center(
-                  child: Icon(Icons.arrow_back_ios),
-                ),
-              ),
-            ),
+            child: CustomBackButton(),
           ),
         ],
       ),
@@ -72,10 +58,10 @@ class _CategoryToImageListState extends State<CategoryToImageList> {
   }
 
   gridImageListView() {
-    return (photos.length > 0)
+    return (photos!.length > 0)
         ? GridView.builder(
             controller: _gridController,
-            itemCount: photos.length + 1,
+            itemCount: photos!.length + 1,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               mainAxisSpacing: 5,
@@ -83,7 +69,7 @@ class _CategoryToImageListState extends State<CategoryToImageList> {
               childAspectRatio: 0.6,
             ),
             itemBuilder: (context, index) {
-              if (index == photos.length) {
+              if (index == photos!.length) {
                 return Center(
                   child: SizedBox(
                     child: CircularProgressIndicator(),
@@ -93,18 +79,18 @@ class _CategoryToImageListState extends State<CategoryToImageList> {
                 );
               }
               return Hero(
-                tag: photos[index].src.large2X,
+                tag: photos![index].src!.large2X!,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (ctx) => FullImage(
-                          imgUrl: photos[index].src.large2X,
+                          imgUrl: photos![index].src!.large2X!,
                           imgIndex: index,
-                          imgsList: photos,
+                          imgsList: photos!,
                           //Bura onsa isdemir
-                          imageName: photos[index].photographer,
+                          imageName: photos![index].photographer!,
                         ),
                       ),
                     );
@@ -116,7 +102,7 @@ class _CategoryToImageListState extends State<CategoryToImageList> {
                       child: FadeInImage(
                         fit: BoxFit.cover,
                         placeholder: AssetImage('assets/load.gif'),
-                        image: NetworkImage(photos[index].src.portrait),
+                        image: NetworkImage(photos![index].src!.portrait!),
                       ),
                     ),
                   ),
@@ -138,7 +124,7 @@ class _CategoryToImageListState extends State<CategoryToImageList> {
     try {
       var model =
           await ProImageApiProvider().getSearchedProImages(query, ++_page);
-      photos.addAll(model.photos);
+      photos!.addAll(model.photos!);
       setState(() {});
     } catch (e) {}
   }
@@ -157,7 +143,7 @@ class _CategoryToImageListState extends State<CategoryToImageList> {
   }
 
   resetSearch() {
-    photos.clear();
+    photos!.clear();
     _page = 0;
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:wallpaper_app_flutter/service/provider/choose_color_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/choose_color_provider.dart';
 
 List<SalomonBottomBarItem> bottomItemList(
     ChooseColorProvider colorProvider, Color color) {

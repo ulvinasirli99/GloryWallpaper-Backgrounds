@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cmoon_icons/flutter_cmoon_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpaper_app_flutter/pages/main/widget/dialog/conts/consts.dart';
 
 class MsgResultDialog extends StatelessWidget {
-  final String title, description, buttonText;
+  final String? title, description, buttonText;
 
   const MsgResultDialog(
-      {Key key, this.title, this.description, this.buttonText})
+      {Key? key, this.title, this.description, this.buttonText})
       : super(key: key);
 
   @override
@@ -49,7 +48,7 @@ class MsgResultDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min, // To make the card compact
             children: <Widget>[
               Text(
-                title,
+                title!,
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.w700,
@@ -57,7 +56,7 @@ class MsgResultDialog extends StatelessWidget {
               ),
               SizedBox(height: 16.0),
               Text(
-                description,
+                description!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16.0,
@@ -70,7 +69,7 @@ class MsgResultDialog extends StatelessWidget {
                   onPressed: () {
                     Navigator.of(context).pop(); // To close the dialog
                   },
-                  child: Text(buttonText),
+                  child: Text(buttonText!),
                 ),
               ),
             ],
@@ -80,7 +79,7 @@ class MsgResultDialog extends StatelessWidget {
           left: Consts.padding,
           right: Consts.padding,
           child: Icon(
-            IconMoon.icon_send,
+            Icons.send,
             size: 50,
             color: Colors.lightGreenAccent,
           ),

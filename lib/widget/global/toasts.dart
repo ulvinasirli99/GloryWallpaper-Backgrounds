@@ -11,9 +11,9 @@ void error(String msg) {
   );
 }
 
-Future notificationMessage(String msg) {
+Future? notificationMessage(String? msg) {
   Fluttertoast.showToast(
-    msg: msg,
+    msg: msg!,
     toastLength: Toast.LENGTH_LONG,
     gravity: ToastGravity.BOTTOM,
     textColor: Colors.white,

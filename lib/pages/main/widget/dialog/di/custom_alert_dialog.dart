@@ -9,13 +9,13 @@ import 'package:flutter/material.dart';
 class Dialog extends StatelessWidget {
  
   const Dialog({
-    Key key,
+    Key? key,
     this.child,
     this.insetAnimationDuration: const Duration(milliseconds: 100),
     this.insetAnimationCurve: Curves.decelerate,
   }) : super(key: key);
 
-  final Widget child;
+  final Widget? child;
 
   final Duration insetAnimationDuration;
 
@@ -57,7 +57,7 @@ class Dialog extends StatelessWidget {
 
 class CustomAlertDialog extends StatelessWidget {
   const CustomAlertDialog({
-    Key key,
+    Key ?key,
     this.title,
     this.titlePadding,
     this.content,
@@ -67,22 +67,22 @@ class CustomAlertDialog extends StatelessWidget {
   })  : assert(contentPadding != null),
         super(key: key);
 
-  final Widget title;
+  final Widget? title;
 
-  final EdgeInsetsGeometry titlePadding;
+  final EdgeInsetsGeometry ?titlePadding;
 
-  final Widget content;
+  final Widget ?content;
 
-  final EdgeInsetsGeometry contentPadding;
+  final EdgeInsetsGeometry? contentPadding;
 
-  final List<Widget> actions;
+  final List<Widget> ?actions;
 
-  final String semanticLabel;
+  final String? semanticLabel;
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> children = <Widget>[];
-    String label = semanticLabel;
+    String? label = semanticLabel;
 
     if (title != null) {
       children.add(new Padding(
@@ -90,7 +90,7 @@ class CustomAlertDialog extends StatelessWidget {
             new EdgeInsets.fromLTRB(
                 24.0, 24.0, 24.0, content == null ? 20.0 : 0.0),
         child: new DefaultTextStyle(
-          style: Theme.of(context).textTheme.bodyText1,
+          style: Theme.of(context).textTheme.bodyText1!,
           child: new Semantics(child: title, namesRoute: true),
         ),
       ));
@@ -99,10 +99,10 @@ class CustomAlertDialog extends StatelessWidget {
     if (content != null) {
       children.add(new Flexible(
         child: new Padding(
-          padding: contentPadding,
+          padding: contentPadding!,
           child: new DefaultTextStyle(
-            style: Theme.of(context).textTheme.bodyText1,
-            child: content,
+            style: Theme.of(context).textTheme.bodyText1!,
+            child: content!,
           ),
         ),
       ));
@@ -111,7 +111,7 @@ class CustomAlertDialog extends StatelessWidget {
     if (actions != null) {
       children.add(new ButtonTheme(
         child: new ButtonBar(
-          children: actions,
+          children: actions!,
         ),
       ));
     }
@@ -135,17 +135,17 @@ class CustomAlertDialog extends StatelessWidget {
 class SimpleDialogOption extends StatelessWidget {
   /// Creates an option for a [SimpleDialog].
   const SimpleDialogOption({
-    Key key,
+    Key? key,
     this.onPressed,
     this.child,
   }) : super(key: key);
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   /// The widget below this widget in the tree.
   ///
   /// Typically a [Text] widget.
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +160,7 @@ class SimpleDialogOption extends StatelessWidget {
 
 class SimpleDialog extends StatelessWidget {
   const SimpleDialog({
-    Key key,
+    Key ?key,
     this.title,
     this.titlePadding: const EdgeInsets.fromLTRB(24.0, 24.0, 24.0, 0.0),
     this.children,
@@ -170,26 +170,26 @@ class SimpleDialog extends StatelessWidget {
         assert(contentPadding != null),
         super(key: key);
 
-  final Widget title;
+  final Widget? title;
 
-  final EdgeInsetsGeometry titlePadding;
+  final EdgeInsetsGeometry? titlePadding;
 
-  final List<Widget> children;
+  final List<Widget> ?children;
 
-  final EdgeInsetsGeometry contentPadding;
+  final EdgeInsetsGeometry? contentPadding;
 
-  final String semanticLabel;
+  final String ?semanticLabel;
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> body = <Widget>[];
-    String label = semanticLabel;
+    String? label = semanticLabel;
 
     if (title != null) {
       body.add(new Padding(
-          padding: titlePadding,
+          padding: titlePadding!,
           child: new DefaultTextStyle(
-            style: Theme.of(context).textTheme.headline1,
+            style: Theme.of(context).textTheme.headline1!,
             child: new Semantics(namesRoute: true, child: title),
           )));
     }
@@ -198,7 +198,7 @@ class SimpleDialog extends StatelessWidget {
       body.add(new Flexible(
           child: new SingleChildScrollView(
         padding: contentPadding,
-        child: new ListBody(children: children),
+        child: new ListBody(children: children!),
       )));
     }
 
@@ -230,13 +230,13 @@ class _DialogRoute<T> extends PopupRoute<T> {
     bool barrierDismissible: true,
     this.barrierLabel,
     @required this.child,
-    RouteSettings settings,
+    RouteSettings ?settings,
   })  : assert(barrierDismissible != null),
         _barrierDismissible = barrierDismissible,
         super(settings: settings);
 
-  final Widget child;
-  final ThemeData theme;
+  final Widget? child;
+  final ThemeData? theme;
 
   @override
   Duration get transitionDuration => const Duration(milliseconds: 150);
@@ -249,7 +249,7 @@ class _DialogRoute<T> extends PopupRoute<T> {
   Color get barrierColor => Colors.black54;
 
   @override
-  final String barrierLabel;
+  final String ?barrierLabel;
 
   @override
   Widget buildPage(BuildContext context, Animation<double> animation,
@@ -262,7 +262,7 @@ class _DialogRoute<T> extends PopupRoute<T> {
           explicitChildNodes: true,
         );
         return theme != null
-            ? new Theme(data: theme, child: annotatedChild)
+            ? new Theme(data: theme!, child: annotatedChild)
             : annotatedChild;
       }),
     );
@@ -277,20 +277,20 @@ class _DialogRoute<T> extends PopupRoute<T> {
   }
 }
 
-Future<T> customShowDialog<T>({
+Future<T?> customShowDialog<T>({
   @required
-      BuildContext context,
+      BuildContext? context,
   bool barrierDismissible: true,
   @Deprecated(
       'Instead of using the "child" argument, return the child from a closure '
       'provided to the "builder" argument. This will ensure that the BuildContext '
       'is appropriate for widgets built in the dialog.')
-      Widget child,
-  WidgetBuilder builder,
+      Widget? child,
+  WidgetBuilder? builder,
 }) {
   assert(child == null || builder == null);
-  return Navigator.of(context, rootNavigator: true).push(new _DialogRoute<T>(
-    child: child ?? new Builder(builder: builder),
+  return Navigator.of(context!, rootNavigator: true).push(new _DialogRoute<T>(
+    child: child ?? new Builder(builder: builder!),
     theme: Theme.of(context),
     barrierDismissible: barrierDismissible,
     barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,

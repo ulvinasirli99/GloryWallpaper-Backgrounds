@@ -1,16 +1,16 @@
 class ImageModel {
-  int totalHits;
-  List<Hits> hits;
-  int total;
+  int? totalHits;
+  List<Hits>? hits;
+  int? total;
 
   ImageModel({this.totalHits, this.hits, this.total});
 
   ImageModel.fromJson(Map<String, dynamic> json) {
     totalHits = json['totalHits'];
     if (json['hits'] != null) {
-      hits = new List<Hits>();
+      hits = new List<Hits>.empty(growable: true);
       json['hits'].forEach((v) {
-        hits.add(new Hits.fromJson(v));
+        hits!.add(new Hits.fromJson(v));
       });
     }
     total = json['total'];
@@ -20,7 +20,7 @@ class ImageModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['totalHits'] = this.totalHits;
     if (this.hits != null) {
-      data['hits'] = this.hits.map((v) => v.toJson()).toList();
+      data['hits'] = this.hits!.map((v) => v.toJson()).toList();
     }
     data['total'] = this.total;
     return data;
@@ -28,28 +28,28 @@ class ImageModel {
 }
 
 class Hits {
-  String largeImageURL;
-  int webformatHeight;
-  int webformatWidth;
-  int likes;
-  int imageWidth;
-  int id;
-  int userId;
-  int views;
-  int comments;
-  String pageURL;
-  int imageHeight;
-  String webformatURL;
-  String type;
-  int previewHeight;
-  String tags;
-  int downloads;
-  String user;
-  int favorites;
-  int imageSize;
-  int previewWidth;
-  String userImageURL;
-  String previewURL;
+  String? largeImageURL;
+  int? webformatHeight;
+  int? webformatWidth;
+  int? likes;
+  int? imageWidth;
+  int? id;
+  int? userId;
+  int? views;
+  int? comments;
+  String? pageURL;
+  int? imageHeight;
+  String? webformatURL;
+  String? type;
+  int? previewHeight;
+  String? tags;
+  int? downloads;
+  String? user;
+  int? favorites;
+  int? imageSize;
+  int? previewWidth;
+  String? userImageURL;
+  String? previewURL;
 
   Hits(
       {this.largeImageURL,

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 
 class AdsNoWidget extends StatelessWidget {
-  final String lottiePath;
-  final String tittle;
-  final Function function;
+  final String? lottiePath;
+  final String ?tittle;
+  final VoidCallback? function;
 
-  const AdsNoWidget({Key key, this.lottiePath, this.tittle, this.function})
+  const AdsNoWidget({Key? key, this.lottiePath, this.tittle, this.function})
       : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class AdsNoWidget extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Lottie.asset(
-              lottiePath,
+              lottiePath!,
               width: 45,
               height: 45,
             ),
@@ -28,7 +28,7 @@ class AdsNoWidget extends StatelessWidget {
               width: 8,
             ),
             Text(
-              tittle,
+              tittle!,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,

@@ -1,8 +1,8 @@
 import 'package:wallpaper_app_flutter/utils/global/constants.dart';
 
 class Favorite {
-  int id;
-  String name;
+  int? id;
+  String? name;
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{columnName: name};
@@ -14,7 +14,7 @@ class Favorite {
 
   Favorite();
 
-  Favorite.fromMap(Map<String, dynamic> map) {
+  Favorite.fromMap(Map<dynamic, dynamic> map) {
     id = map[columnId];
     name = map[columnName];
   }

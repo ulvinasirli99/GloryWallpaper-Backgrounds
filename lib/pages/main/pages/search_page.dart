@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:wallpaper_app_flutter/localizations/app_localizations.dart';
 import 'package:wallpaper_app_flutter/model/pro/img_model_pro.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:wallpaper_app_flutter/service/http/pro_image_api_provider.dart';
-import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
+import 'package:wallpaper_app_flutter/service/http/image/pro_image_api_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/widget/global/toasts.dart';
 import 'full_image.dart';
 
@@ -74,7 +74,7 @@ class _SearchPageState extends State<SearchPage> {
                         ? Colors.white.withOpacity(0.6)
                         : Colors.grey.shade400,
                   ),
-                  hintText: ApplicationLocalizations.of(context)
+                  hintText: ApplicationLocalizations.of(context)!
                       .translate('search_wallpaper'),
                 ),
                 onSubmitted: (value) {
@@ -133,7 +133,7 @@ class _SearchPageState extends State<SearchPage> {
               ? Colors.black
               : Colors.white,
           child: ListView.builder(
-            itemCount: snapshot.data.length,
+            itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               return ListTile(
                 leading: Icon(
@@ -143,7 +143,7 @@ class _SearchPageState extends State<SearchPage> {
                       : Colors.black,
                 ),
                 title: Text(
-                  snapshot.data[index],
+                  snapshot.data![index],
                   style: TextStyle(
                     color: Provider.of<Settings>(context).isDarkMode
                         ? Colors.white
@@ -151,13 +151,13 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
                 onTap: () {
-                  _searchController.text = snapshot.data[index];
+                  _searchController.text = snapshot.data![index];
                   setState(() {
                     showSearchResult = true;
                   });
-                  _saveSuggestions(snapshot.data[index]);
+                  _saveSuggestions(snapshot.data![index]);
                   resetSearch();
-                  _loadSearchImages(snapshot.data[index]);
+                  _loadSearchImages(snapshot.data![index]);
                 },
               );
             },
@@ -189,14 +189,14 @@ class _SearchPageState extends State<SearchPage> {
                 );
               }
               return Hero(
-                tag: photos[index].src.large2X,
+                tag: photos[index].src!.large2X!,
                 child: GestureDetector(
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (ctx) => FullImage(
-                          imgUrl: photos[index].src.large2X,
+                          imgUrl: photos[index].src!.large2X!,
                           imgIndex: index,
                           imgsList: photos,
                           //Bura onsa isdemir
@@ -212,7 +212,7 @@ class _SearchPageState extends State<SearchPage> {
                       child: FadeInImage(
                         fit: BoxFit.cover,
                         placeholder: AssetImage('assets/load.gif'),
-                        image: NetworkImage(photos[index].src.portrait),
+                        image: NetworkImage(photos[index].src!.portrait!),
                       ),
                     ),
                   ),
@@ -234,7 +234,7 @@ class _SearchPageState extends State<SearchPage> {
     try {
       var model =
           await ProImageApiProvider().getSearchedProImages(query, ++_page);
-      photos.addAll(model.photos);
+      photos.addAll(model.photos!);
       setState(() {});
     } catch (e) {}
   }

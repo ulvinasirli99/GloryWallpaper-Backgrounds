@@ -4,12 +4,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../conts/consts.dart';
 
 class CustomRelaseDialog extends StatelessWidget {
-  final String title, description, buttonText;
-  final Image image;
-  final Widget childWidget;
+  final String ?title, description, buttonText;
+  final Image? image;
+  final Widget ?childWidget;
 
   const CustomRelaseDialog({
-    Key key,
+    Key? key,
     this.title,
     this.description,
     this.buttonText,
@@ -56,7 +56,7 @@ class CustomRelaseDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min, // To make the card compact
             children: <Widget>[
               Text(
-                title,
+                title!,
                 style: TextStyle(
                   fontSize: 24.0,
                   fontWeight: FontWeight.w700,
@@ -64,7 +64,7 @@ class CustomRelaseDialog extends StatelessWidget {
               ),
               SizedBox(height: 16.0),
               Text(
-                description,
+                description!,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16.0,
@@ -79,10 +79,10 @@ class CustomRelaseDialog extends StatelessWidget {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (ctx) => childWidget),
+                      MaterialPageRoute(builder: (ctx) => childWidget!),
                     );
                   },
-                  child: Text(buttonText),
+                  child: Text(buttonText!),
                 ),
               ),
             ],

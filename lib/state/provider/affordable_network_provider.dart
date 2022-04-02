@@ -8,10 +8,10 @@ class AfforDableNetwork extends ChangeNotifier {
 
   AfforDableNetwork(this.sharedPreferences);
 
-  bool get isAffordableNetwork => sharedPreferences?.getBool("affoNet") ?? false;
+  bool get isAffordableNetwork => sharedPreferences.getBool("affoNet") ?? false;
 
   void setAffordableNetwork(bool value) {
-    sharedPreferences?.setBool("affoNet", value);
+    sharedPreferences.setBool("affoNet", value);
     notifyListeners();
   }
 }

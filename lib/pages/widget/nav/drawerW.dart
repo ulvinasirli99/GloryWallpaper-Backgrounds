@@ -1,17 +1,16 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpaper_app_flutter/localizations/app_localizations.dart';
 import 'package:wallpaper_app_flutter/pages/main/pages/favorite.dart';
-import 'package:wallpaper_app_flutter/pages/main/pages/home.dart';
 import 'package:wallpaper_app_flutter/pages/main/widget/dialog/di/custom_relase_dialog.dart';
 import 'package:wallpaper_app_flutter/pages/navPage/ui/about.dart';
 import 'package:wallpaper_app_flutter/pages/navPage/ui/feedback.dart';
 import 'package:wallpaper_app_flutter/pages/navPage/ui/settings.dart';
+import 'package:wallpaper_app_flutter/pages/ringtone/ringtone_screen.dart';
 import 'package:wallpaper_app_flutter/pages/widget/popup/menu_item.dart';
-import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/utils/global/constants.dart';
 import 'package:wallpaper_app_flutter/utils/share/share.dart';
 import 'ads_no_widget.dart';
@@ -35,10 +34,10 @@ class DrawerWidegts extends Drawer {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.lightBlue[400],
-                  Colors.lightBlue[600],
-                  Colors.lightBlue[700],
-                  Colors.lightBlue[800]
+                  Colors.lightBlue.shade400,
+                  Colors.lightBlue.shade400,
+                  Colors.lightBlue.shade700,
+                  Colors.lightBlue.shade800,
                 ],
               ),
             ),
@@ -128,15 +127,15 @@ class DrawerWidegts extends Drawer {
                     child: Column(
                       children: <Widget>[
                         MenuItem(
-                          icon: Icons.home,
+                          icon: Icons.music_note_outlined,
                           color: Color(0xff388e3c),
-                          title: ApplicationLocalizations.of(context)
+                          title: ApplicationLocalizations.of(context)!
                               .translate('home'),
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Home(),
+                                builder: (context) => RingtoneScreen(),
                               ),
                             );
                           },
@@ -144,7 +143,7 @@ class DrawerWidegts extends Drawer {
                         MenuItem(
                           color: Color(0xffff3d00),
                           icon: Icons.favorite,
-                          title: ApplicationLocalizations.of(context)
+                          title: ApplicationLocalizations.of(context)!
                               .translate('favorite'),
                           onTap: () {
                             Navigator.push(
@@ -184,7 +183,7 @@ class DrawerWidegts extends Drawer {
                         MenuItem(
                           color: Colors.pink[400],
                           icon: Icons.settings,
-                          title: ApplicationLocalizations.of(context)
+                          title: ApplicationLocalizations.of(context)!
                               .translate('setting'),
                           onTap: () {
                             Navigator.push(
@@ -198,7 +197,7 @@ class DrawerWidegts extends Drawer {
                         MenuItem(
                           color: Color(0xffafb4b2),
                           icon: Icons.feedback,
-                          title: ApplicationLocalizations.of(context)
+                          title: ApplicationLocalizations.of(context)!
                               .translate('feedback'),
                           onTap: () {
                             Navigator.push(
@@ -214,7 +213,7 @@ class DrawerWidegts extends Drawer {
                               ? Colors.teal
                               : Colors.black,
                           icon: Icons.share,
-                          title: ApplicationLocalizations.of(context)
+                          title: ApplicationLocalizations.of(context)!
                               .translate('share'),
                           onTap: () async {
                             await shareText(appShareUrl);
@@ -230,7 +229,7 @@ class DrawerWidegts extends Drawer {
                         MenuItem(
                           color: Colors.indigo.shade400,
                           icon: Icons.my_library_books_sharp,
-                          title: ApplicationLocalizations.of(context)
+                          title: ApplicationLocalizations.of(context)!
                               .translate('about_app'),
                           onTap: () {
                             getDialogOkayButtonSave(context);
@@ -246,7 +245,7 @@ class DrawerWidegts extends Drawer {
                         MenuItem(
                           color: Colors.amber.shade600,
                           icon: Icons.exit_to_app,
-                          title: ApplicationLocalizations.of(context)
+                          title: ApplicationLocalizations.of(context)!
                               .translate('exit'),
                           onTap: () {
                             SystemNavigator.pop();
@@ -280,7 +279,7 @@ class DrawerWidegts extends Drawer {
   }
 
   // ignore: missing_return
-  Future<bool> getDialogOkayButtonSave(BuildContext context) async {
+  Future<bool?> getDialogOkayButtonSave(BuildContext context) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     var btnResult = preferences.getBool("okayButtonSave");
     if (btnResult == true) {

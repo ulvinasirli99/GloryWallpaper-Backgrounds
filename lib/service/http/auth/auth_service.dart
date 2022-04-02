@@ -6,18 +6,18 @@ class AuthenticationService {
 
   AuthenticationService(this.firebaseAuth);
 
-  Stream<User> get authUserStateChnages => firebaseAuth.authStateChanges();
+  Stream<User?> get authUserStateChnages => firebaseAuth.authStateChanges();
 
   // todo >>> Firebase Auth Login Service....<<<
-  Future<String> signInWithEmail({String email, String password}) async {
+  Future<String> signInWithEmail({String? email, String ?password}) async {
   
     try {
   
       await firebaseAuth.signInWithEmailAndPassword(
   
-        email: email,
+        email: email!,
   
-        password: password,
+        password: password!,
   
       );
   
@@ -25,7 +25,7 @@ class AuthenticationService {
   
     } on FirebaseAuthException catch (e) {
   
-      return e.message;
+      return e.message!;
   
   
     }  
@@ -33,15 +33,15 @@ class AuthenticationService {
   }
 
   // todo >>> Firebase Auth Rgister Service....<<<
-  Future<String> signUpWithEmail({String email, String password}) async {
+  Future<String> signUpWithEmail({String? email, String ?password}) async {
   
     try {
   
       await firebaseAuth.createUserWithEmailAndPassword(
   
-        email: email,
+        email: email!,
   
-        password: password,
+        password: password!,
   
       );
   
@@ -49,7 +49,7 @@ class AuthenticationService {
   
     } on FirebaseAuthException catch (e) {
   
-      return e.message;
+      return e.message!;
   
     }
   

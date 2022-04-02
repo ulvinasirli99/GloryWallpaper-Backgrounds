@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cmoon_icons/flutter_cmoon_icons.dart';
+import 'package:flutter_awesome_buttons/flutter_awesome_buttons.dart';
 
 class VisblePhone extends StatelessWidget {
   @override
@@ -23,10 +23,9 @@ class VisblePhone extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Icon(
-                    IconMoon.icon_google_plus,
-                    size: 30,
-                    color: Colors.redAccent,
+                  child: GoogleButton(
+                    onPressed: () {},
+                    iconSize: 30,
                   ),
                 ),
                 Text(
@@ -60,25 +59,21 @@ class VisblePhone extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Icon(
-                    IconMoon.icon_facebook,
-                    size: 47,
-                    color: Colors.blue,
+                  FacebookButton(
+                    onPressed: () {},
+                    iconSize: 47,
                   ),
-                  Icon(
-                    IconMoon.icon_whatsapp,
-                    size: 47,
-                    color: Colors.green,
+                  TwitterButton(
+                    onPressed: () {},
+                    iconSize: 47,
                   ),
-                  Icon(
-                    IconMoon.icon_telegram,
-                    size: 47,
-                    color: Colors.blue[400],
+                  InstagramButton(
+                    onPressed: () {},
+                    iconSize: 47,
                   ),
-                  Icon(
-                    IconMoon.icon_google,
-                    color: Colors.red,
-                     size: 47,
+                  MicrosoftButton(
+                    onPressed: () {},
+                    iconSize: 47,
                   ),
                 ],
               ),

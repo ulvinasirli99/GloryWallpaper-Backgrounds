@@ -1,14 +1,14 @@
 import 'package:wallpaper_app_flutter/model/local/home_tabbar_strings.dart';
 
 List<HomeTabbarStrings> getTabbarStrings() {
-  List<HomeTabbarStrings> tabStrings = new List();
+  List<HomeTabbarStrings> tabStrings = new List.empty(growable: true);
   HomeTabbarStrings homeTabbarStrings = new HomeTabbarStrings();
 
   homeTabbarStrings.imageNames = "Art";
   tabStrings.add(homeTabbarStrings);
   homeTabbarStrings = new HomeTabbarStrings();
 
-  homeTabbarStrings.imageNames = "Love";
+  homeTabbarStrings.imageNames = "Cool";
   tabStrings.add(homeTabbarStrings);
   homeTabbarStrings = new HomeTabbarStrings();
 

@@ -10,8 +10,8 @@ import 'package:wallpaper_app_flutter/localizations/app_localizations.dart';
 import 'package:wallpaper_app_flutter/model/pro/img_model_pro.dart';
 import 'package:wallpaper_app_flutter/pages/main/pages/full_image.dart';
 import 'package:wallpaper_app_flutter/pages/main/widget/ui/network_error.dart';
-import 'package:wallpaper_app_flutter/service/http/pro_image_api_provider.dart';
-import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
+import 'package:wallpaper_app_flutter/service/http/image/pro_image_api_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/utils/global/constants.dart';
 
 class ProImagesPage extends StatefulWidget {
@@ -251,7 +251,7 @@ class _ProImagesPageState extends State<ProImagesPage> {
                 );
               }
               return Hero(
-                tag: photos[index].src.large2X,
+                tag: photos[index].src!.large2X!,
                 child: GestureDetector(
                   onTap: () {
                     if (getReward == 0 && getReward < 200) {
@@ -261,8 +261,8 @@ class _ProImagesPageState extends State<ProImagesPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => FullImage(
-                            imgUrl: photos[index].src.large2X,
-                               //Bura onsa isdemir
+                            imgUrl: photos[index].src!.large2X!,
+                            //Bura onsa isdemir
                             imageName: photos[index].photographer,
                           ),
                         ),
@@ -283,7 +283,7 @@ class _ProImagesPageState extends State<ProImagesPage> {
                           child: FadeInImage(
                             fit: BoxFit.cover,
                             placeholder: AssetImage('assets/load.gif'),
-                            image: NetworkImage(photos[index].src.large),
+                            image: NetworkImage(photos[index].src!.large!),
                           ),
                         ),
                       ),
@@ -319,7 +319,7 @@ class _ProImagesPageState extends State<ProImagesPage> {
     try {
       var model =
           await ProImageApiProvider().getSearchedProImages(query, ++page);
-      photos.addAll(model.photos);
+      photos.addAll(model.photos!);
       setState(() {});
     } catch (e) {}
   }
@@ -342,7 +342,8 @@ class _ProImagesPageState extends State<ProImagesPage> {
           negativeTextStyle: TextStyle(fontSize: 16, color: Colors.red),
           positiveTextStyle: TextStyle(fontSize: 16, color: Colors.black),
           titleText: 'Alert',
-          contentText: ApplicationLocalizations.of(context).translate("point_dialog"),
+          contentText:
+              ApplicationLocalizations.of(context)!.translate("point_dialog"),
           onPositiveClick: () {
             Navigator.of(context).pop();
           },

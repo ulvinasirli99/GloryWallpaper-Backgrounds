@@ -3,7 +3,6 @@ import 'package:fab_circular_menu/fab_circular_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_cmoon_icons/flutter_cmoon_icons.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_wallpaper_manager/flutter_wallpaper_manager.dart';
@@ -22,14 +21,14 @@ import 'dart:async';
 import 'package:wallpaper_app_flutter/widget/global/toasts.dart';
 
 class FullImage extends StatefulWidget {
-  final String imgUrl;
-  final String imageName;
-  final int imgIndex;
-  final List<Photo> imgsList;
-  final List<Favorite> favListImgs;
+  final String? imgUrl;
+  final String? imageName;
+  final int? imgIndex;
+  final List<Photo>? imgsList;
+  final List<Favorite>? favListImgs;
 
   FullImage({
-    Key key,
+    Key? key,
     this.imgUrl,
     this.imageName,
     this.imgIndex,
@@ -45,7 +44,7 @@ class _FullImageState extends State<FullImage> {
   // AdmobInterstitial interstitialAd;
   GlobalKey<ScaffoldState> scfaffoldKey = GlobalKey<ScaffoldState>();
   List<Favorite> list = new List.empty(growable: true);
-  PageController pageController;
+  late PageController? pageController;
   int photoIndex = 0;
   bool permission = false;
   bool isVisble = false;
@@ -54,10 +53,8 @@ class _FullImageState extends State<FullImage> {
   String _path = "";
   String _size = "";
   String _mimeType = "";
-  File _imageFile;
+  File? _imageFile;
   int _progress = 0;
-
-  List<File> _mulitpleFiles = [];
   final favColor = Colors.redAccent;
   final noFavColor = Colors.grey;
 
@@ -88,7 +85,7 @@ class _FullImageState extends State<FullImage> {
   void initState() {
     super.initState();
     // _permissionRequest();
-    ImageDownloader.callback(onProgressUpdate: (String imageId, int progress) {
+    ImageDownloader.callback(onProgressUpdate: (String? imageId, int progress) {
       setState(() {
         _progress = progress;
         print(_progress.toString());
@@ -142,15 +139,15 @@ class _FullImageState extends State<FullImage> {
   //   super.dispose();
   // }
 
-  Future onSelectNotification(String payload) {
+  Future? onSelectNotification(String? payload) {
     return notificationMessage(payload);
   }
 
   @override
   Widget build(BuildContext context) {
     if (pageController == null) {
-      photoIndex = widget.imgIndex;
-      imageList = widget.imgsList;
+      photoIndex = widget.imgIndex!;
+      imageList = widget.imgsList!;
       pageController = PageController(
         initialPage: photoIndex,
       );
@@ -162,32 +159,49 @@ class _FullImageState extends State<FullImage> {
         children: <Widget>[
           Stack(
             children: <Widget>[
-              widget.imgsList == null
-                  ? Container(
-                      height: MediaQuery.of(context).size.height,
-                      width: MediaQuery.of(context).size.width,
-                      child: Hero(
-                        tag: widget.imgUrl,
-                        child: OctoImage(
-                          fit: BoxFit.cover,
-                          color: Colors.black,
-                          image: NetworkImage(widget.imgUrl),
-                          progressIndicatorBuilder: (context, progress) {
-                            double value = 0;
-                            var expectedBytes = progress?.expectedTotalBytes;
-                            if (progress != null && expectedBytes != null) {
-                              value = progress.cumulativeBytesLoaded /
-                                  expectedBytes;
-                            }
-                            return CircularProgressIndicator(value: value);
+              widget.favListImgs == null
+                  ? widget.imgsList != null
+                      ? PageView.builder(
+                          itemCount: widget.imgsList!.length,
+                          controller: pageController,
+                          itemBuilder: (ctx, index) {
+                            photoIndex = index;
+                            return Container(
+                              height: MediaQuery.of(context).size.height,
+                              width: MediaQuery.of(context).size.width,
+                              child: Hero(
+                                tag: widget.imgsList![index].src!.large2X!,
+                                child: OctoImage(
+                                  fit: BoxFit.cover,
+                                  fadeInCurve: Curves.easeInCubic,
+                                  fadeOutCurve: Curves.easeOutSine,
+                                  image: NetworkImage(
+                                      widget.imgsList![index].src!.large2X!),
+                                  progressIndicatorBuilder:
+                                      (context, progress) {
+                                    return Center(
+                                      child: Lottie.asset(
+                                        'assets/circle_loading_lottie.json',
+                                        width: 70,
+                                        height: 70,
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stacktrace) =>
+                                      Center(
+                                          child: Icon(
+                                    Icons.error,
+                                    size: 40,
+                                    color: Colors.red,
+                                  )),
+                                ),
+                              ),
+                            );
                           },
-                          errorBuilder: (context, error, stacktrace) =>
-                              Icon(Icons.error),
-                        ),
-                      ),
-                    )
+                        )
+                      : const SizedBox()
                   : PageView.builder(
-                      itemCount: widget.imgsList.length,
+                      itemCount: widget.favListImgs!.length,
                       controller: pageController,
                       itemBuilder: (ctx, index) {
                         photoIndex = index;
@@ -195,21 +209,15 @@ class _FullImageState extends State<FullImage> {
                           height: MediaQuery.of(context).size.height,
                           width: MediaQuery.of(context).size.width,
                           child: Hero(
-                            tag: widget.imgsList[index].src.large2X,
+                            tag: widget.favListImgs![index].name!,
                             child: OctoImage(
                               fit: BoxFit.cover,
                               fadeInCurve: Curves.easeInCubic,
                               fadeOutCurve: Curves.easeOutSine,
                               image: NetworkImage(
-                                  widget.imgsList[index].src.large2X),
+                                widget.favListImgs![index].name!,
+                              ),
                               progressIndicatorBuilder: (context, progress) {
-                                double value = 0;
-                                var expectedBytes =
-                                    progress?.expectedTotalBytes;
-                                if (progress != null && expectedBytes != null) {
-                                  value = progress.cumulativeBytesLoaded /
-                                      expectedBytes;
-                                }
                                 return Center(
                                   child: Lottie.asset(
                                     'assets/circle_loading_lottie.json',
@@ -220,11 +228,12 @@ class _FullImageState extends State<FullImage> {
                               },
                               errorBuilder: (context, error, stacktrace) =>
                                   Center(
-                                      child: Icon(
-                                Icons.error,
-                                size: 40,
-                                color: Colors.red,
-                              )),
+                                child: Icon(
+                                  Icons.error,
+                                  size: 40,
+                                  color: Colors.red,
+                                ),
+                              ),
                             ),
                           ),
                         );
@@ -232,12 +241,16 @@ class _FullImageState extends State<FullImage> {
                     ),
               Align(
                 alignment: Alignment.center,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                  child: Visibility(
-                    visible: isVisble,
-                    child: VisblePhone(),
+                // todo this is line visible phone Tapped closedd....
+                child: IgnorePointer(
+                  ignoring: true,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    child: Visibility(
+                      visible: isVisble,
+                      child: VisblePhone(),
+                    ),
                   ),
                 ),
               ),
@@ -313,7 +326,7 @@ class _FullImageState extends State<FullImage> {
                       // } else {
                       //   print("Loaded");
                       // }
-                      _downloadImage(widget.imgUrl);
+                      _downloadImage(widget.imgUrl!);
                     },
                   ),
                 ),
@@ -326,7 +339,7 @@ class _FullImageState extends State<FullImage> {
               padding: const EdgeInsets.only(bottom: 50, right: 20),
               child: FabCircularMenu(
                 fabOpenIcon: Icon(
-                  IconMoon.icon_one_finger_swipe_horizontally,
+                  Icons.swipe,
                   size: 40,
                 ),
                 animationDuration: const Duration(milliseconds: 400),
@@ -352,7 +365,7 @@ class _FullImageState extends State<FullImage> {
                           onPressed: () {
                             setState(() {
                               isFavorite = true;
-                              imageToAddListFavorite(widget.imgUrl);
+                              imageToAddListFavorite(widget.imgUrl!);
                             });
                           },
                         )
@@ -376,7 +389,7 @@ class _FullImageState extends State<FullImage> {
                       color: Colors.white,
                     ),
                     onPressed: () {
-                      shareText(widget.imgUrl);
+                      shareText(widget.imgUrl!);
                     },
                   ),
                   IconButton(
@@ -414,17 +427,17 @@ class _FullImageState extends State<FullImage> {
   }
 
   Future<void> _downloadImage(String url,
-      {AndroidDestinationType destination,
+      {AndroidDestinationType? destination,
       bool whenError = false,
-      String outputMimeType}) async {
-    String fileName;
-    String path;
-    int size;
-    String mimeType;
+      String? outputMimeType}) async {
+    String? fileName;
+    String? path;
+    int? size;
+    String? mimeType;
     try {
       String imageId;
       if (whenError) {
-        imageId = await ImageDownloader.downloadImage(url,
+        imageId = (await ImageDownloader.downloadImage(url,
                 outputMimeType: outputMimeType,
                 destination: AndroidDestinationType.directoryDownloads)
             .catchError((error) {
@@ -446,33 +459,33 @@ class _FullImageState extends State<FullImage> {
         }).timeout(Duration(seconds: 15), onTimeout: () {
           print("timeout");
           return;
-        });
+        }))!;
       } else {
         if (destination == null) {
-          imageId = await ImageDownloader.downloadImage(
+          imageId = (await ImageDownloader.downloadImage(
             url,
             outputMimeType: outputMimeType,
             destination: AndroidDestinationType.directoryDownloads,
-          );
+          ))!;
         } else {
-          imageId = await ImageDownloader.downloadImage(
+          imageId = (await ImageDownloader.downloadImage(
             url,
             destination: AndroidDestinationType.directoryDownloads,
             outputMimeType: outputMimeType,
-          );
+          ))!;
         }
       }
 
       if (imageId == null) {
         return;
       }
-      fileName = await ImageDownloader.findName(imageId);
-      path = await ImageDownloader.findPath(imageId);
-      size = await ImageDownloader.findByteSize(imageId);
-      mimeType = await ImageDownloader.findMimeType(imageId);
+      fileName = (await ImageDownloader.findName(imageId))!;
+      path = (await ImageDownloader.findPath(imageId))!;
+      size = (await ImageDownloader.findByteSize(imageId))!;
+      mimeType = (await ImageDownloader.findMimeType(imageId))!;
     } on PlatformException catch (error) {
       setState(() {
-        _message = error.message;
+        _message = error.message!;
       });
       return;
     }
@@ -484,12 +497,12 @@ class _FullImageState extends State<FullImage> {
       _message = 'Saved as "$fileName" in $location.\n';
       _size = 'size:     $size';
       _mimeType = 'mimeType: $mimeType';
-      _path = path;
+      _path = path!;
 
       if (!_mimeType.contains("video")) {
         _imageFile = File(path);
       }
-      showNotification(widget.imageName);
+      showNotification(widget.imageName!);
 
       return;
     });
@@ -497,7 +510,7 @@ class _FullImageState extends State<FullImage> {
 
   Future returnCheckFavResult() async {
     var db = Helper();
-    bool hasData = await db.hasData(widget.imgUrl);
+    bool hasData = await db.hasData(widget.imgUrl!);
     isFavorite = hasData;
     return isFavorite;
   }
@@ -508,19 +521,19 @@ class _FullImageState extends State<FullImage> {
     var db = Helper();
     db.insertFav(fav);
     error(
-      ApplicationLocalizations.of(context).translate('favorite_added'),
+      ApplicationLocalizations.of(context)!.translate('favorite_added')!,
     );
   }
 
   Future imageDeleteFromFavorite() async {
     var db = Helper();
-    db.deleteImageFav(widget.imgUrl);
-    error(ApplicationLocalizations.of(context).translate('favorite_delete'));
+    db.deleteImageFav(widget.imgUrl!);
+    error(ApplicationLocalizations.of(context)!.translate('favorite_delete')!);
   }
 
   showNotification(String imageName) async {
-    var android = new AndroidNotificationDetails(
-        'id', 'channel ', channelDescription: 'description',
+    var android = new AndroidNotificationDetails('id', 'channel ',
+        channelDescription: 'description',
         priority: Priority.high,
         importance: Importance.max,
         playSound: true,
@@ -566,7 +579,7 @@ class _FullImageState extends State<FullImage> {
                     //   print("Loaded");
                     // }
                     var filePath = await DefaultCacheManager()
-                        .getSingleFile(widget.imgUrl);
+                        .getSingleFile(widget.imgUrl!);
                     await WallpaperManager.setWallpaperFromFile(
                         filePath.path, WallpaperManager.BOTH_SCREEN);
                     error("Set Wallpaper Both Screen");
@@ -593,7 +606,7 @@ class _FullImageState extends State<FullImage> {
                 GestureDetector(
                   onTap: () async {
                     var filePath = await DefaultCacheManager()
-                        .getSingleFile(widget.imgUrl);
+                        .getSingleFile(widget.imgUrl!);
                     await WallpaperManager.setWallpaperFromFile(
                         filePath.path, WallpaperManager.HOME_SCREEN);
                     error("Set Wallpaper Home Screen");
@@ -620,7 +633,7 @@ class _FullImageState extends State<FullImage> {
                 GestureDetector(
                   onTap: () async {
                     var filePath = await DefaultCacheManager()
-                        .getSingleFile(widget.imgUrl);
+                        .getSingleFile(widget.imgUrl!);
                     await WallpaperManager.setWallpaperFromFile(
                         filePath.path, WallpaperManager.LOCK_SCREEN);
                     error("Set Wallpaper Lock Screen");

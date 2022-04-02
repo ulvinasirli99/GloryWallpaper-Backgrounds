@@ -10,12 +10,12 @@ class Helper {
 
   factory Helper() => _instance;
 
-  static Database _db;
+  static Database? _db;
 
   Future<Database> get db async {
-    if (_db != null) return _db;
+    if (_db != null) return _db!;
     _db = await initDb();
-    return _db;
+    return _db!;
   }
 
   initDb() async {
@@ -52,8 +52,8 @@ class Helper {
         .delete(tableUser, where: '$columnName = ?', whereArgs: [imgUrl]);
   }
 
-  Future<List> getFavorites() async {
-    List<Favorite> user = List();
+  Future<List<Favorite>> getFavorites() async {
+    List<Favorite> user = List.empty(growable: true);
     var dbClient = await db;
     List<Map> maps = await dbClient.query(tableUser,
         columns: [columnId, columnName], orderBy: '$columnId DESC');

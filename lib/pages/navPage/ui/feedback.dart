@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cmoon_icons/flutter_cmoon_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:wallpaper_app_flutter/pages/navPage/dialog/msg_send_dialog.dart';
 import 'package:wallpaper_app_flutter/service/firestore/feedback_service.dart';
-import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/widget/text/gradinet_text.dart';
 
 class FeedbackPage extends StatefulWidget {
@@ -123,11 +122,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
                             ),
                             TextFormField(
                               onSaved: (mail) {
-                                email = mail;
+                                email = mail!;
                               },
                               keyboardType: TextInputType.emailAddress,
                               validator: (email) {
-                                if (!email.contains('@')) {
+                                if (!email!.contains('@')) {
                                   return 'Enter the email form correctly';
                                 }
                                 if (email.isEmpty) {
@@ -139,7 +138,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                               decoration: InputDecoration(
                                 hintText:
                                     'Email (Please enter the email correctly)',
-                                suffixIcon: Icon(IconMoon.icon_email1),
+                                suffixIcon: Icon(Icons.email),
                               ),
                             ),
                             SizedBox(
@@ -147,10 +146,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
                             ),
                             TextFormField(
                               onSaved: (msg) {
-                                message = msg;
+                                message = msg!;
                               },
                               validator: (msg) {
-                                if (msg.isEmpty) {
+                                if (msg!.isEmpty) {
                                   return 'Message is empty';
                                 }
                                 return msg;
@@ -169,13 +168,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () async {
-                                    if (formKey.currentState.validate()) {
+                                    if (formKey.currentState!.validate()) {
                                       // if (await interstitialAd.isLoaded) {
                                       //   interstitialAd.show();
                                       // } else {
                                       //   print("Loaded");
                                       // }
-                                      formKey.currentState.save();
+                                      formKey.currentState!.save();
                                       feedbackService.addMeessageService(
                                           email, message);
                                       messageSendResultDialog(context);

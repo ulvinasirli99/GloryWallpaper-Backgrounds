@@ -77,7 +77,7 @@ String rApiTexts =
 //TODO -------------------------------------------------------------------------------------------------------------------
 
 //Todo Local CarouselImage value ;....
-List<String> imgList;
+List<String>? imgList;
 
 List<String> videoList = [
   "https://vod-progressive.akamaized.net/exp=1639510491~acl=%2Fvimeo-prod-skyfire-std-us%2F01%2F509%2F20%2F502545915%2F2293524865.mp4~hmac=3e77363951255d7af4f279dd9cb120730caa7337e3cffca147cfd4b0f9e52b59/vimeo-prod-skyfire-std-us/01/509/20/502545915/2293524865.mp4?filename=pexels-anna-tarazevich-6550972.mp4",

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cmoon_icons/flutter_cmoon_icons.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -7,8 +6,8 @@ import 'package:wallpaper_app_flutter/components/extentions/bottom_list.dart';
 import 'package:wallpaper_app_flutter/pages/main/pages/search_page.dart';
 import 'package:wallpaper_app_flutter/pages/main/widget/dialog/di/ads_to_pro_dialog.dart';
 import 'package:wallpaper_app_flutter/pages/widget/nav/drawerW.dart';
-import 'package:wallpaper_app_flutter/service/provider/choose_color_provider.dart';
-import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/choose_color_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 import 'category_page.dart';
 import 'favorite.dart';
 import 'home.dart';
@@ -22,13 +21,13 @@ class _WallpaperPageState extends State<WallpaperPage> {
   int _activeBottomNavigatorPositin = 0;
   final PageController _pageController = PageController();
   final _scaffoldState = GlobalKey<ScaffoldState>();
-  Color color;
+  Color? color;
 
   @override
   void initState() {
     super.initState();
     _pageController.addListener(() {
-      int currentIndex = _pageController.page.round();
+      int currentIndex = _pageController.page!.round();
       if (currentIndex != _activeBottomNavigatorPositin) {
         _activeBottomNavigatorPositin = currentIndex;
         setState(
@@ -40,12 +39,19 @@ class _WallpaperPageState extends State<WallpaperPage> {
 
   @override
   Widget build(BuildContext context) {
-    ChooseColorProvider colorProvider = new ChooseColorProvider(color, context);
+    ChooseColorProvider colorProvider = new ChooseColorProvider(color!, context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
-        title: Text("Glory Wallpaper"),
+        title: Text(
+          "Glory Wallpaper",
+          style: TextStyle(
+            color: Provider.of<Settings>(context).isDarkMode
+                ? Colors.white
+                : Colors.black,
+          ),
+        ),
         elevation: 0.0,
         actions: [
           GestureDetector(
@@ -65,7 +71,12 @@ class _WallpaperPageState extends State<WallpaperPage> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: const Icon(Icons.menu),
+              icon: Icon(
+                Icons.menu,
+                color: Provider.of<Settings>(context).isDarkMode
+                    ? Colors.white
+                    : Colors.black,
+              ),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -95,7 +106,7 @@ class _WallpaperPageState extends State<WallpaperPage> {
         child: SalomonBottomBar(
           curve: Curves.easeIn,
           currentIndex: _activeBottomNavigatorPositin,
-          items: bottomItemList(colorProvider, color),
+          items: bottomItemList(colorProvider, color!),
           onTap: (int index) {
             setState(() {
               _activeBottomNavigatorPositin = index;
@@ -123,7 +134,12 @@ class _WallpaperPageState extends State<WallpaperPage> {
   void toProGloryCustomDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (BuildContext context) => AdsToProDialog(),
+      barrierDismissible: true,
+      builder: (BuildContext context) => AdsToProDialog(
+        voidCallback: () {
+          Navigator.pop(context);
+        },
+      ),
     );
   }
 }

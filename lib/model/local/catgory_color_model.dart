@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
 class CatgoryColorModel {
-  String categorieName;
-  Color colorName;
+  String? categorieName;
+  Color? colorName;
 }

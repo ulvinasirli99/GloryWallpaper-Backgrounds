@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wallpaper_app_flutter/widget/text/custom_text.dart';
 
 class CategoryItem extends StatelessWidget {
-  final String categoryTexts;
+  final String? categoryTexts;
   const CategoryItem({
-    Key key,
+    Key? key,
     this.categoryTexts,
   }) : super(key: key);
 

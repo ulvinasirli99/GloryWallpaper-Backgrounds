@@ -1,17 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:wallpaper_app_flutter/service/http/auth_service.dart';
+import 'package:wallpaper_app_flutter/service/http/auth/auth_service.dart';
 
 class AuthenticationProvider extends ChangeNotifier {
   final authService = AuthenticationService(FirebaseAuth.instance);
 
-  bool _isLogged;
+  bool? _isLogged;
 
   AuthenticationProvider() {
     _isLogged = false;
   }
 
-  bool get isLogged => _isLogged;
+  bool? get isLogged => _isLogged;
 
   set isLoggedIn(bool isLog) {
  
@@ -21,15 +21,15 @@ class AuthenticationProvider extends ChangeNotifier {
  
   }
 
-  Future registerAuthProvider({String email, String password}) async {
+  Future registerAuthProvider({String? email, String? password}) async {
  
     isLoggedIn = true;
  
     await authService.signUpWithEmail(
  
-      email: email,
+      email: email!,
  
-      password: password,
+      password: password!,
  
     );
  
@@ -37,11 +37,11 @@ class AuthenticationProvider extends ChangeNotifier {
  
   }
 
-  Future<UserCredential> loginAuthProvider({String email, String password}) async {
+  Future<UserCredential?> loginAuthProvider({String? email, String? password}) async {
  
     isLoggedIn = true;
  
-    await authService.signInWithEmail(email: email, password: password);
+    await authService.signInWithEmail(email: email!, password: password!);
  
     isLoggedIn = false;
  

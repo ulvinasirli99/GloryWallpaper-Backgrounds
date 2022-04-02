@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/widget/text/custom_text.dart';
 import 'package:wallpaper_app_flutter/widget/text/gradinet_text.dart';
 
@@ -10,17 +10,17 @@ class AboutPage extends StatefulWidget {
 }
 
 class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
-  AnimationController animationController;
+  AnimationController ?animationController;
   @override
   void initState() {
     super.initState();
     animationController = new AnimationController(
         duration: const Duration(seconds: 3), vsync: this);
-    animationController.forward();
-    animationController.addListener(() {
+    animationController!.forward();
+    animationController!.addListener(() {
       setState(() {
-        if (animationController.status == AnimationStatus.completed) {
-          animationController.repeat();
+        if (animationController!.status == AnimationStatus.completed) {
+          animationController!.repeat();
         }
       });
     });
@@ -28,7 +28,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    animationController.dispose();
+    animationController!.dispose();
     super.dispose();
   }
 
@@ -99,7 +99,7 @@ class _AboutPageState extends State<AboutPage> with TickerProviderStateMixin {
                     height: 100,
                     child: RotationTransition(
                       turns: Tween(begin: 0.0, end: 1.0)
-                          .animate(animationController),
+                          .animate(animationController!),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(60),
                         child: Image.asset(

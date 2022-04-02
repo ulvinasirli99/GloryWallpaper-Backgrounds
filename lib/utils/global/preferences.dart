@@ -11,7 +11,7 @@ Future<bool> darkModeSaveInstance(bool mode) async {
   return prefs.setBool("darkModeSave", mode);
 }
 
-Future<List> favoriteDataUsage(List favDataUsage) async {
+Future<List?> favoriteDataUsage(List<String>? favDataUsage) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setStringList("favList", favDataUsage);
+  prefs.setStringList("favList", favDataUsage!);
 }

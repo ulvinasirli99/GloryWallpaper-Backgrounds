@@ -3,7 +3,7 @@ import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
 
 class CheckInternet{
-StreamSubscription<DataConnectionStatus> listener;
+StreamSubscription<DataConnectionStatus>? listener;
   var InternetStatus = "Unknown";
   var contentmessage = "Unknown";
   void _showDialog(String title, String content, BuildContext context) {

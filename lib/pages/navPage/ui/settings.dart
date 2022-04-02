@@ -2,18 +2,16 @@ import 'dart:async';
 import 'package:battery/battery.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cmoon_icons/flutter_cmoon_icons.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:wallpaper_app_flutter/localizations/app_localizations.dart';
 import 'package:wallpaper_app_flutter/pages/navPage/ui/about.dart';
-import 'package:wallpaper_app_flutter/service/provider/authentication_provider.dart';
-import 'package:wallpaper_app_flutter/service/provider/choose_color_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/authentication_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/choose_color_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/widget/global/toasts.dart';
-
-import '../../../service/provider/theme_provider.dart';
 
 class Setting extends StatefulWidget {
   @override
@@ -24,13 +22,13 @@ class _SettingState extends State<Setting> {
   bool lessData = false;
   bool _darkTheme = false;
   Battery _battery = Battery();
-  BatteryState _batteryState;
-  AppUpdateInfo _updateInfo;
-  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey();
-  int batteryLevel;
-  StreamSubscription<BatteryState> _batteryStateSubciption;
+  BatteryState? _batteryState;
+  AppUpdateInfo? _updateInfo;
+  GlobalKey<ScaffoldState> ?_scaffoldKey = new GlobalKey();
+  int? batteryLevel;
+  StreamSubscription<BatteryState> ?_batteryStateSubciption;
   // AdmobBannerSize bannerSize;
-  Color color;
+  Color? color;
   String cacheSizeInMemory = "a";
 
   @override
@@ -55,8 +53,8 @@ class _SettingState extends State<Setting> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   void showSnack(String text) {
-    if (_scaffoldKey.currentContext != null) {
-      ScaffoldMessenger.of(_scaffoldKey.currentContext)
+    if (_scaffoldKey!.currentContext != null) {
+      ScaffoldMessenger.of(_scaffoldKey!.currentContext!)
           .showSnackBar(SnackBar(content: Text(text)));
     }
   }
@@ -91,7 +89,7 @@ class _SettingState extends State<Setting> {
   void dispose() {
     super.dispose();
     if (_batteryStateSubciption != null) {
-      _batteryStateSubciption.cancel();
+      _batteryStateSubciption!.cancel();
     }
   }
 
@@ -101,7 +99,7 @@ class _SettingState extends State<Setting> {
       context,
       listen: false,
     );
-    ChooseColorProvider colorProvider = ChooseColorProvider(color, context);
+    ChooseColorProvider colorProvider = ChooseColorProvider(color!, context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -112,7 +110,7 @@ class _SettingState extends State<Setting> {
         ),
         elevation: 0.0,
         title: Text(
-          ApplicationLocalizations.of(context).translate('setting'),
+          ApplicationLocalizations.of(context)!.translate('setting')!,
           style: TextStyle(
             color: Provider.of<Settings>(context).isDarkMode
                 ? Colors.white
@@ -131,11 +129,11 @@ class _SettingState extends State<Setting> {
               inactiveThumbColor: Colors.yellow,
               activeColor: Colors.red,
               title: Text(
-                ApplicationLocalizations.of(context).translate('dark_mode'),
+                ApplicationLocalizations.of(context)!.translate('dark_mode')!,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
-                  color: colorProvider.chooseSettingTextStyleColor(color),
+                  color: colorProvider.chooseSettingTextStyleColor(color!),
                 ),
               ),
               value: Provider.of<Settings>(context).isDarkMode,
@@ -166,11 +164,11 @@ class _SettingState extends State<Setting> {
               inactiveThumbColor: Colors.yellow,
               activeColor: Colors.red,
               title: Text(
-                ApplicationLocalizations.of(context).translate('affor_network'),
+                ApplicationLocalizations.of(context)!.translate('affor_network')!,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
-                  color: colorProvider.chooseSettingTextStyleColor(color),
+                  color: colorProvider.chooseSettingTextStyleColor(color!),
                 ),
               ),
               value: Provider.of<Settings>(context).isAffordableNetwork,
@@ -198,11 +196,11 @@ class _SettingState extends State<Setting> {
             ),
             ListTile(
               title: Text(
-                ApplicationLocalizations.of(context).translate('battery_usage'),
+                ApplicationLocalizations.of(context)!.translate('battery_usage')!,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
-                  color: colorProvider.chooseSettingTextStyleColor(color),
+                  color: colorProvider.chooseSettingTextStyleColor(color!),
                 ),
               ),
               leading: Icon(
@@ -245,11 +243,11 @@ class _SettingState extends State<Setting> {
                 color: Colors.redAccent,
               ),
               title: Text(
-                ApplicationLocalizations.of(context).translate('clear_history'),
+                ApplicationLocalizations.of(context)!.translate('clear_history')!,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
-                  color: colorProvider.chooseSettingTextStyleColor(color),
+                  color: colorProvider.chooseSettingTextStyleColor(color!),
                 ),
               ),
               trailing: Text(
@@ -257,7 +255,7 @@ class _SettingState extends State<Setting> {
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
-                  color: colorProvider.chooseSettingTextStyleColor(color),
+                  color: colorProvider.chooseSettingTextStyleColor(color!),
                 ),
               ),
             ),
@@ -275,15 +273,15 @@ class _SettingState extends State<Setting> {
               },
               child: ListTile(
                 title: Text(
-                  ApplicationLocalizations.of(context).translate('about_app'),
+                  ApplicationLocalizations.of(context)!.translate('about_app')!,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: colorProvider.chooseSettingTextStyleColor(color),
+                    color: colorProvider.chooseSettingTextStyleColor(color!),
                   ),
                 ),
                 leading: Icon(
-                  IconMoon.icon_abbrobotstudio,
+                  Icons.swipe,
                   size: 30,
                   color: Colors.redAccent,
                 ),
@@ -316,11 +314,11 @@ class _SettingState extends State<Setting> {
               },
               child: ListTile(
                 title: Text(
-                  ApplicationLocalizations.of(context).translate('rate_app'),
+                  ApplicationLocalizations.of(context)!.translate('rate_app')!,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: colorProvider.chooseSettingTextStyleColor(color),
+                    color: colorProvider.chooseSettingTextStyleColor(color!),
                   ),
                 ),
                 leading: Icon(
@@ -360,11 +358,11 @@ class _SettingState extends State<Setting> {
                   : null,
               child: ListTile(
                 title: Text(
-                  ApplicationLocalizations.of(context).translate('app_version'),
+                  ApplicationLocalizations.of(context)!.translate('app_version')!,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: colorProvider.chooseSettingTextStyleColor(color),
+                    color: colorProvider.chooseSettingTextStyleColor(color!),
                   ),
                 ),
                 leading: Icon(
@@ -400,7 +398,7 @@ class _SettingState extends State<Setting> {
             // Todo This line Logout Account....
             GestureDetector(
               onTap: () async {
-                User user = FirebaseAuth.instance.currentUser;
+                User user = FirebaseAuth.instance.currentUser!;
                 if (user != null) {
                   var logut = authProvider.logoutAccountProvider();
                   logut.whenComplete(() {
@@ -418,7 +416,7 @@ class _SettingState extends State<Setting> {
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
-                    color: colorProvider.chooseSettingTextStyleColor(color),
+                    color: colorProvider.chooseSettingTextStyleColor(color!),
                   ),
                 ),
                 leading: Icon(
@@ -495,12 +493,13 @@ class _SettingState extends State<Setting> {
   void getSuggetionsHistoryData() async {
     var prefs = await SharedPreferences.getInstance();
     List<String> suggestions =
-        prefs.getStringList('suggestions_list') ?? List<String>();
+        prefs.getStringList('suggestions_list') ?? List<String>.empty(growable: true);
     var getCount = (suggestions.length * 9) / 4;
     if (getCount <= 50) {
       cacheSizeInMemory = getCount.toString() + " KB";
     } else if (getCount > 50) {
       cacheSizeInMemory = getCount.toString() + " MB";
+    // ignore: unnecessary_null_comparison
     } else if (getCount == null) {
       cacheSizeInMemory = "No Data";
     }

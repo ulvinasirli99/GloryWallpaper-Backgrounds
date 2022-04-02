@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:wallpaper_app_flutter/pages/main/widget/dialog/di/custom_alert_dialog.dart';
 
 class EditToImageSetWallpaper extends StatelessWidget {
-  final Uint8List imageData;
+  final Uint8List? imageData;
 
-  const EditToImageSetWallpaper({Key key, this.imageData}) : super(key: key);
+  const EditToImageSetWallpaper({Key ?key, this.imageData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class EditToImageSetWallpaper extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Image.memory(
-              imageData,
+              imageData!,
               fit: BoxFit.cover,
             ),
           ),

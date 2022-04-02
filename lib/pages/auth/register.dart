@@ -3,9 +3,9 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wallpaper_app_flutter/animation/fade_animation.dart';
 import 'package:wallpaper_app_flutter/pages/auth/login.dart';
-import 'package:wallpaper_app_flutter/pages/main/pages/home.dart';
 import 'package:wallpaper_app_flutter/pages/main/pages/wallpaper_page.dart';
-import 'package:wallpaper_app_flutter/service/provider/authentication_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/authentication_provider.dart';
+
 import 'package:wallpaper_app_flutter/validation/form_validate.dart';
 import 'package:wallpaper_app_flutter/widget/global/toasts.dart';
 
@@ -153,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               minWidth: double.infinity,
                               height: 60,
                               onPressed: () {
-                                if (formKey.currentState.validate()) {
+                                if (formKey.currentState!.validate()) {
                                   setState(() {
                                     isLoading = true;
                                   });
@@ -232,8 +232,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget makeInput({
     label,
     obscureText = false,
-    @required TextEditingController controller,
-    @required Function(String value) authValidator,
+    required TextEditingController controller,
+    required Function(String value) authValidator,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -252,17 +252,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
         TextFormField(
           // obscureText: obscureText,
           controller: controller,
-          validator: authValidator,
+          validator: authValidator.call(""),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Colors.grey[400],
+                color: Colors.grey.shade400,
               ),
             ),
             border: OutlineInputBorder(
               borderSide: BorderSide(
-                color: Colors.grey[400],
+                color: Colors.grey.shade400,
               ),
             ),
           ),

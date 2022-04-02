@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:wallpaper_app_flutter/utils/global/constants.dart';
 
-import '../../model/local/image_model.dart';
+import '../../../model/local/image_model.dart';
 
 class ApiProvider {
   Future<ImageModel> getImages(int count) async {

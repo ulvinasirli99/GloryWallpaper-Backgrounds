@@ -11,11 +11,11 @@ class ImgModelPro {
     this.nextPage,
   });
 
-  int page;
-  int perPage;
-  List<Photo> photos;
-  int totalResults;
-  String nextPage;
+  int? page;
+  int? perPage;
+  List<Photo>? photos;
+  int? totalResults;
+  String? nextPage;
 
   factory ImgModelPro.fromJson(Map<String, dynamic> json) => ImgModelPro(
         page: json["page"],
@@ -28,7 +28,7 @@ class ImgModelPro {
   Map<String, dynamic> toJson() => {
         "page": page,
         "per_page": perPage,
-        "photos": List<dynamic>.from(photos.map((x) => x.toJson())),
+        "photos": List<dynamic>.from(photos!.map((x) => x.toJson())),
         "total_results": totalResults,
         "next_page": nextPage,
       };
@@ -48,16 +48,16 @@ class Photo {
     this.liked,
   });
 
-  int id;
-  int width;
-  int height;
-  String url;
-  String photographer;
-  String photographerUrl;
-  int photographerId;
-  String avgColor;
-  Src src;
-  bool liked;
+  int? id;
+  int? width;
+  int? height;
+  String? url;
+  String? photographer;
+  String? photographerUrl;
+  int? photographerId;
+  String? avgColor;
+  Src? src;
+  bool? liked;
 
   factory Photo.fromJson(Map<String, dynamic> json) => Photo(
         id: json["id"],
@@ -81,7 +81,7 @@ class Photo {
         "photographer_url": photographerUrl,
         "photographer_id": photographerId,
         "avg_color": avgColor,
-        "src": src.toJson(),
+        "src": src!.toJson(),
         "liked": liked,
       };
 }
@@ -98,14 +98,14 @@ class Src {
     this.tiny,
   });
 
-  String original;
-  String large2X;
-  String large;
-  String medium;
-  String small;
-  String portrait;
-  String landscape;
-  String tiny;
+  String? original;
+  String? large2X;
+  String? large;
+  String? medium;
+  String? small;
+  String? portrait;
+  String? landscape;
+  String? tiny;
 
   factory Src.fromJson(Map<String, dynamic> json) => Src(
         original: json["original"],

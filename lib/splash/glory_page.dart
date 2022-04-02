@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpaper_app_flutter/app/app.dart';
-import 'package:wallpaper_app_flutter/service/provider/theme_provider.dart';
+import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 
 class GloryWall extends StatefulWidget {
   @override
@@ -52,7 +52,7 @@ class _GloryWallState extends State<GloryWall> {
       builder:
           (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
         return ChangeNotifierProvider<Settings>.value(
-          value: Settings(snapshot.data),
+          value: Settings(snapshot.data!),
           child: MyApp(),
         );
       },

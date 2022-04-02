@@ -16,15 +16,15 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  Size _size;
-  double _appbarSize;
+  Size? _size;
+  double? _appbarSize;
   int _nOfpages = 3;
   int _currentPage = 0;
   PageController _controller = PageController(initialPage: 0);
   DeviceInfoPlugin infoPlugin = DeviceInfoPlugin();
-  AndroidDeviceInfo androidDeviceInfo;
-  String deviceModel;
-  String deviceSdkVersion;
+  AndroidDeviceInfo? androidDeviceInfo;
+  String? deviceModel;
+  String? deviceSdkVersion;
 
   getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -106,7 +106,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   Widget _body() {
     return SizedBox.expand(
       child: Container(
-        height: _size.height,
+        height: _size!.height,
 //        color: Colors.blue,
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -114,7 +114,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             children: <Widget>[
               Container(
                 alignment: Alignment.topRight,
-                margin: EdgeInsets.only(top: _appbarSize),
+                margin: EdgeInsets.only(top: _appbarSize!),
 //                color: Colors.blue,
                 child: FlatButton(
 //                  color: Colors.white,
@@ -126,7 +126,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
               ),
               Container(
-                height: _size.height / 1.7, //we will make the height dynamic
+                height: _size!.height / 1.7, //we will make the height dynamic
 //                color: Colors.amber,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

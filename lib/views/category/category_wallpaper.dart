@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Center categoryWallpaper({String cateName, String imgUrl}) {
+Center categoryWallpaper({String? cateName, String? imgUrl}) {
     return Center(
       child: Container(
         margin: EdgeInsets.only(left: 7),
@@ -9,7 +9,7 @@ Center categoryWallpaper({String cateName, String imgUrl}) {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-              imgUrl,
+              imgUrl!,
             ),
             fit: BoxFit.cover,
           ),
@@ -18,7 +18,7 @@ Center categoryWallpaper({String cateName, String imgUrl}) {
         child: Align(
           alignment: Alignment.center,
           child: Text(
-            cateName,
+            cateName!,
             style: TextStyle(
               fontSize: 20,
               color: Colors.white,

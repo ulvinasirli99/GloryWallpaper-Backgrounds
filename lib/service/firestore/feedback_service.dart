@@ -8,7 +8,7 @@ class FeedbackService {
 
   ///Todo Database add FeedBack message and email
   ///Service Firestore from database collections
-  Future<void> addMeessageService(String email, String msg) async {
+  Future<Message> addMeessageService(String? email, String? msg) async {
     var ref = _firestore.collection(collectionPath);
 
     var document = await ref.add({

@@ -1,15 +1,12 @@
 // ignore_for_file: deprecated_member_use
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:wallpaper_app_flutter/animation/fade_animation.dart';
 import 'package:wallpaper_app_flutter/pages/auth/register.dart';
-import 'package:wallpaper_app_flutter/pages/main/pages/home.dart';
 import 'package:wallpaper_app_flutter/pages/main/pages/wallpaper_page.dart';
-import 'package:wallpaper_app_flutter/service/provider/authentication_provider.dart';
-import 'package:wallpaper_app_flutter/splash/splash_screen.dart';
+import 'package:wallpaper_app_flutter/state/provider/authentication_provider.dart';
 import 'package:wallpaper_app_flutter/validation/form_validate.dart';
 import 'package:wallpaper_app_flutter/widget/global/toasts.dart';
 
@@ -101,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     obscureText: true,
                                     controller: passwordController,
                                     authValidator: (val) {
-                                      if (val.isEmpty && val.length < 6) {
+                                      if (val!.isEmpty && val.length < 6) {
                                         return 'Pass is not empty';
                                       }
                                       return null;
@@ -129,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     minWidth: double.infinity,
                                     height: 60,
                                     onPressed: () async {
-                                      if (formKey.currentState.validate()) {
+                                      if (formKey.currentState!.validate()) {
                                         try {
                                           setState(() {
                                             isLoading = true;
@@ -149,7 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (ctx) => WallpaperPage(),
+                                                builder: (ctx) =>
+                                                    WallpaperPage(),
                                               ),
                                             );
                                           }
@@ -238,12 +236,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget makeInput({
-    label,
-    obscureText = false,
-    @required TextEditingController controller,
-    @required Function(String value) authValidator,
-  }) {
+  Widget makeInput(
+      {label,
+      obscureText = false,
+      required TextEditingController controller,
+      required Function(String? value)? authValidator}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -258,13 +255,18 @@ class _LoginScreenState extends State<LoginScreen> {
         TextFormField(
           // obscureText: obscureText,
           controller: controller,
-          validator: authValidator,
+          validator: authValidator?.call(""),
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey[400])),
+              borderSide: BorderSide(
+                color: Colors.grey.shade400,
+              ),
+            ),
             border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey[400])),
+                borderSide: BorderSide(
+              color: Colors.grey.shade400,
+            )),
           ),
         ),
         SizedBox(

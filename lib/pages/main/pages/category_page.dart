@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:octo_image/octo_image.dart';
-import 'package:random_color/random_color.dart';
+import 'package:provider/provider.dart';
 import 'package:wallpaper_app_flutter/model/local/categorie_model.dart';
 import 'package:wallpaper_app_flutter/model/local/catgory_color_model.dart';
 import 'package:wallpaper_app_flutter/pages/main/widget/ui/category_to_imagelist.dart';
-import 'package:wallpaper_app_flutter/service/http/category_data.dart';
+import 'package:wallpaper_app_flutter/service/http/local/category_data.dart';
 import 'package:wallpaper_app_flutter/service/http/local/catgory_color_data.dart';
+import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/widget/text/custom_text.dart';
 
 class CategoryPage extends StatefulWidget {
-  const CategoryPage({Key key}) : super(key: key);
+  const CategoryPage({Key? key}) : super(key: key);
 
   @override
   _CategoryPageState createState() => _CategoryPageState();
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  List<CatgoryColorModel> colorModelList = new List.empty(growable: true);
-  List<CategorieModel> categories = new List.empty(growable: true);
+  List<CatgoryColorModel?>? colorModelList = new List.empty(growable: true);
+  List<CategorieModel?>? categories = new List.empty(growable: true);
 
   @override
   void initState() {
@@ -30,7 +31,9 @@ class _CategoryPageState extends State<CategoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Provider.of<Settings>(context).isDarkMode
+          ? Colors.black
+          : Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -39,7 +42,9 @@ class _CategoryPageState extends State<CategoryPage> {
             child: CustomText(
               text: 'CATEGORY',
               textSize: 26,
-              color: Colors.black,
+              color: Provider.of<Settings>(context).isDarkMode
+                  ? Colors.white
+                  : Colors.black,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -49,12 +54,11 @@ class _CategoryPageState extends State<CategoryPage> {
           Container(
             width: double.infinity,
             height: 50,
-            // color: Colors.red,
             child: Padding(
               padding: const EdgeInsets.only(right: 8),
               child: ListView.builder(
                 physics: const BouncingScrollPhysics(),
-                itemCount: colorModelList.length,
+                itemCount: colorModelList!.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (ctx, index) {
                   return GestureDetector(
@@ -63,7 +67,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => CategoryToImageList(
-                            imageUrl: colorModelList[index].categorieName,
+                            imageUrl: colorModelList![index]!.categorieName,
                           ),
                         ),
                       );
@@ -77,7 +81,7 @@ class _CategoryPageState extends State<CategoryPage> {
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: colorModelList[index].colorName,
+                          color: colorModelList![index]!.colorName,
                         ),
                       ),
                     ),
@@ -91,7 +95,7 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
           Expanded(
             child: GridView.builder(
-              itemCount: categories.length,
+              itemCount: categories!.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 1,
@@ -104,7 +108,7 @@ class _CategoryPageState extends State<CategoryPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => CategoryToImageList(
-                          imageUrl: categories[position].categorieName,
+                          imageUrl: categories![position]!.categorieName,
                         ),
                       ),
                     );
@@ -123,7 +127,7 @@ class _CategoryPageState extends State<CategoryPage> {
                               fit: BoxFit.cover,
                               fadeInCurve: Curves.easeInCubic,
                               fadeOutCurve: Curves.easeOutSine,
-                              image: NetworkImage(categories[position].imgUrl),
+                              image: NetworkImage(categories![position]!.imgUrl!),
                               progressIndicatorBuilder: (context, progress) {
                                 return Center(
                                   child: Lottie.asset(
@@ -145,7 +149,7 @@ class _CategoryPageState extends State<CategoryPage> {
                             Align(
                               alignment: Alignment.center,
                               child: CustomText(
-                                text: categories[position].categorieName,
+                                text: categories![position]!.categorieName!,
                                 textSize: 28,
                                 color: Colors.white,
                               ),

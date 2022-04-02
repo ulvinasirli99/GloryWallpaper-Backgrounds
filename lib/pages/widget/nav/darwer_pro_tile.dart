@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class DrawerProTile extends StatelessWidget {
-  final String assetImagePath;
-  final String tittle;
-  final Function function;
+  final String ?assetImagePath;
+  final String? tittle;
+  final VoidCallback ?function;
 
   const DrawerProTile(
-      {Key key, this.assetImagePath, this.tittle, this.function})
+      {Key? key, this.assetImagePath, this.tittle, this.function})
       : super(key: key);
 
   @override
@@ -18,7 +18,7 @@ class DrawerProTile extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Image.asset(
-              assetImagePath,
+              assetImagePath!,
               width: 30,
               height: 30,
             ),
@@ -26,7 +26,7 @@ class DrawerProTile extends StatelessWidget {
               width: 20,
             ),
             Text(
-              tittle,
+              tittle!,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 17,

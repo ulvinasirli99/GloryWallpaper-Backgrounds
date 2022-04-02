@@ -14,8 +14,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
-  AnimationController animationController;
-  Animation<double> animation;
+  AnimationController? animationController;
+  Animation<double>? animation;
 
   startTimeNextActivity() {
     var time = new Duration(seconds: 4);
@@ -23,9 +23,9 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   nextEnrolledPage() async {
-    User user = FirebaseAuth.instance.currentUser;
+    User user = FirebaseAuth.instance.currentUser!;
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool baseResult = preferences.getBool("start");
+    bool? baseResult = preferences.getBool("start");
     if (baseResult == true || user!=null) {
       return Navigator.pushReplacement(
         context,
@@ -54,10 +54,10 @@ class _SplashScreenState extends State<SplashScreen>
     animationController =
         new AnimationController(vsync: this, duration: Duration(seconds: 3));
     animation = new CurvedAnimation(
-        parent: animationController, curve: Curves.bounceIn);
+        parent: animationController!, curve: Curves.bounceIn);
 
-    animation.addListener(() => this.setState(() {}));
-    animationController.forward();
+    animation!.addListener(() => this.setState(() {}));
+    animationController!.forward();
 
     startTimeNextActivity();
 
@@ -91,7 +91,7 @@ class _SplashScreenState extends State<SplashScreen>
               ScaleTransition(
                 scale: Tween(begin: 0.6, end: 1.6).animate(
                   CurvedAnimation(
-                    parent: animationController,
+                    parent: animationController!,
                     curve: Curves.easeInCirc,
                   ),
                 ),
@@ -112,7 +112,7 @@ class _SplashScreenState extends State<SplashScreen>
               ScaleTransition(
                 scale: Tween(begin: 1.6, end: 0.6).animate(
                   CurvedAnimation(
-                    parent: animationController,
+                    parent: animationController!,
                     curve: Curves.easeInCirc,
                   ),
                 ),
