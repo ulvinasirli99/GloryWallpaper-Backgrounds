@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,18 +21,16 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   nextEnrolledPage() async {
-    User user = FirebaseAuth.instance.currentUser!;
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool? baseResult = preferences.getBool("start");
-    if (baseResult == true || user!=null) {
-      return Navigator.pushReplacement(
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    if(sharedPreferences.getBool("start")==true){
+      Navigator.pushReplacement(
         context,
-        new MaterialPageRoute(
-          builder: (BuildContext context) => WallpaperPage(),
+        MaterialPageRoute(
+          builder: (context) => WallpaperPage(),
         ),
       );
-    } else {
-      return Navigator.pushReplacement(
+    }else{
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => WelcomeScreen(),
@@ -60,7 +56,6 @@ class _SplashScreenState extends State<SplashScreen>
     animationController!.forward();
 
     startTimeNextActivity();
-
   }
 
   @override

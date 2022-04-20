@@ -52,7 +52,9 @@ class _GloryWallState extends State<GloryWall> {
       builder:
           (BuildContext context, AsyncSnapshot<SharedPreferences> snapshot) {
         return ChangeNotifierProvider<Settings>.value(
-          value: Settings(snapshot.data!),
+          value: Settings(
+            snapshot.data
+          ),
           child: MyApp(),
         );
       },

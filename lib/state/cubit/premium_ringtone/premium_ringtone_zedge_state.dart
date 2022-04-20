@@ -9,7 +9,12 @@ abstract class PremiumRingtoneZedgeState extends Equatable {
 
 class PremiumRingtoneZedgeInitial extends PremiumRingtoneZedgeState {}
 
-class PremiumRingtoneZedgeLoading extends PremiumRingtoneZedgeState {}
+class PremiumRingtoneZedgeLoading extends PremiumRingtoneZedgeState {
+  final List<PremimumRingtoneModel?>? premiumModelList;
+  final bool isFirstFetch;
+
+  PremiumRingtoneZedgeLoading(this.premiumModelList, this.isFirstFetch);
+}
 
 class PremiumRingtoneZedgeLoaded extends PremiumRingtoneZedgeState {
   final List<PremimumRingtoneModel?>? premiumModelList;

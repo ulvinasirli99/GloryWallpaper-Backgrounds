@@ -22,13 +22,13 @@ class _SettingState extends State<Setting> {
   bool lessData = false;
   bool _darkTheme = false;
   Battery _battery = Battery();
-  BatteryState? _batteryState;
+  late BatteryState? _batteryState;
   AppUpdateInfo? _updateInfo;
-  GlobalKey<ScaffoldState> ?_scaffoldKey = new GlobalKey();
+  GlobalKey<ScaffoldState>? _scaffoldKey = new GlobalKey();
   int? batteryLevel;
-  StreamSubscription<BatteryState> ?_batteryStateSubciption;
+  late StreamSubscription<BatteryState>? _batteryStateSubciption;
   // AdmobBannerSize bannerSize;
-  Color? color;
+  Color? color = Colors.red;
   String cacheSizeInMemory = "a";
 
   @override
@@ -164,7 +164,8 @@ class _SettingState extends State<Setting> {
               inactiveThumbColor: Colors.yellow,
               activeColor: Colors.red,
               title: Text(
-                ApplicationLocalizations.of(context)!.translate('affor_network')!,
+                ApplicationLocalizations.of(context)!
+                    .translate('affor_network')!,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
@@ -196,7 +197,8 @@ class _SettingState extends State<Setting> {
             ),
             ListTile(
               title: Text(
-                ApplicationLocalizations.of(context)!.translate('battery_usage')!,
+                ApplicationLocalizations.of(context)!
+                    .translate('battery_usage')!,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
@@ -243,7 +245,8 @@ class _SettingState extends State<Setting> {
                 color: Colors.redAccent,
               ),
               title: Text(
-                ApplicationLocalizations.of(context)!.translate('clear_history')!,
+                ApplicationLocalizations.of(context)!
+                    .translate('clear_history')!,
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w500,
@@ -358,7 +361,8 @@ class _SettingState extends State<Setting> {
                   : null,
               child: ListTile(
                 title: Text(
-                  ApplicationLocalizations.of(context)!.translate('app_version')!,
+                  ApplicationLocalizations.of(context)!
+                      .translate('app_version')!,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w500,
@@ -492,14 +496,14 @@ class _SettingState extends State<Setting> {
 
   void getSuggetionsHistoryData() async {
     var prefs = await SharedPreferences.getInstance();
-    List<String> suggestions =
-        prefs.getStringList('suggestions_list') ?? List<String>.empty(growable: true);
+    List<String> suggestions = prefs.getStringList('suggestions_list') ??
+        List<String>.empty(growable: true);
     var getCount = (suggestions.length * 9) / 4;
     if (getCount <= 50) {
       cacheSizeInMemory = getCount.toString() + " KB";
     } else if (getCount > 50) {
       cacheSizeInMemory = getCount.toString() + " MB";
-    // ignore: unnecessary_null_comparison
+      // ignore: unnecessary_null_comparison
     } else if (getCount == null) {
       cacheSizeInMemory = "No Data";
     }

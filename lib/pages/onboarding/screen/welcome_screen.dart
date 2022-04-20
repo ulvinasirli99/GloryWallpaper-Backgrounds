@@ -289,11 +289,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                       ),
                                       onPressed: () async {
                                         Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        WallpaperPage()));
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                WallpaperPage(),
+                                          ),
+                                        );
                                         buttonNextActivityStartButton();
                                       },
                                     ),

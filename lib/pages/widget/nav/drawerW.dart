@@ -19,7 +19,7 @@ class DrawerWidegts extends Drawer {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.lightBlue[600],
+      color: Color.fromARGB(235, 255, 221, 29),
       width: MediaQuery.of(context).size.width - 40,
       height: MediaQuery.of(context).size.height,
       child: ListView(
@@ -34,10 +34,9 @@ class DrawerWidegts extends Drawer {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  Colors.lightBlue.shade400,
-                  Colors.lightBlue.shade400,
-                  Colors.lightBlue.shade700,
-                  Colors.lightBlue.shade800,
+                  Color.fromARGB(235, 255, 221, 29),
+                  Color.fromARGB(255, 252, 134, 45),
+                  Color.fromARGB(255, 255, 120, 78),
                 ],
               ),
             ),
@@ -109,9 +108,9 @@ class DrawerWidegts extends Drawer {
                         Colors.black,
                       ]
                     : [
-                        Colors.lightBlue.shade400,
-                        Colors.indigo.shade400,
-                        Colors.blue.shade400,
+                        Color.fromARGB(235, 255, 221, 29),
+                        Color.fromARGB(255, 252, 134, 45),
+                        Color.fromARGB(255, 255, 120, 78),
                       ],
               ),
             ),

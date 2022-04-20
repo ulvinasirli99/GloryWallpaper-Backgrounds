@@ -9,9 +9,6 @@ class ApplicationLocalizations {
   ApplicationLocalizations(this.appLocale);
 
 
-
-
-
   static ApplicationLocalizations? of(BuildContext context) {
     return Localizations.of<ApplicationLocalizations>(
         context, ApplicationLocalizations);
@@ -48,7 +45,7 @@ class ApplicationLocalizationsDelegate
   @override
   bool isSupported(Locale locale) {
     // Include all of your supported language codes here
-    return ['en', 'de', 'az', 'ru', 'tr'].contains(locale.languageCode);
+    return ['en', 'de', 'ru', 'tr'].contains(locale.languageCode);
   }
 
   @override

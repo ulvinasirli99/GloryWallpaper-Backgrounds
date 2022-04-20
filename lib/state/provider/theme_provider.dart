@@ -4,21 +4,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Class that contains all your app settings
 /// Consists only of Theme setting as of now
 class Settings extends ChangeNotifier {
-  final SharedPreferences sharedPreferences;
+  final SharedPreferences? sharedPreferences;
 
   Settings(this.sharedPreferences);
 
-  bool get isDarkMode => sharedPreferences.getBool("isDarkMode") ?? false;
+  bool get isDarkMode => sharedPreferences?.getBool("isDarkMode") ?? false;
 
   void setDarkMode(bool val) {
-    sharedPreferences.setBool("isDarkMode", val);
+    sharedPreferences?.setBool("isDarkMode", val);
     notifyListeners();
   }
 
-  bool get isAffordableNetwork => sharedPreferences.getBool("affoNet") ?? false;
+  bool get isAffordableNetwork => sharedPreferences?.getBool("affoNet") ?? false;
 
   void setAffordableNetwork(bool value) {
-    sharedPreferences.setBool("affoNet", value);
+    sharedPreferences?.setBool("affoNet", value);
     notifyListeners();
   }
 }

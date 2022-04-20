@@ -106,9 +106,10 @@ class _ProImagesPageState extends State<ProImagesPage> {
           label: "Search Wallpaper",
           labelStyle: TextStyle(fontSize: 16),
           searchStyle: TextStyle(
-              color: Provider.of<Settings>(context).isDarkMode
-                  ? Colors.white
-                  : Colors.black),
+            color: Provider.of<Settings>(context).isDarkMode
+                ? Colors.white
+                : Colors.black,
+          ),
           cursorColor: Colors.white,
           searchDecoration: InputDecoration(
             hintText: "Search",

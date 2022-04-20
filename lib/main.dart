@@ -11,7 +11,6 @@ import 'package:wallpaper_app_flutter/state/cubit/premium_ringtone/premium_ringt
 import 'package:wallpaper_app_flutter/state/cubit/premium_ringtone_search_bloc/premium_ringtone_search_bloc.dart';
 import 'package:wallpaper_app_flutter/state/cubit/ringtone_cubit/ringtone_cubit_cubit.dart';
 import 'package:wallpaper_app_flutter/state/provider/authentication_provider.dart';
-
 import 'splash/glory_page.dart';
 
 void main() async {

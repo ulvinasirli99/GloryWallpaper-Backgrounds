@@ -21,7 +21,7 @@ class _WallpaperPageState extends State<WallpaperPage> {
   int _activeBottomNavigatorPositin = 0;
   final PageController _pageController = PageController();
   final _scaffoldState = GlobalKey<ScaffoldState>();
-  Color? color;
+  Color? color = Colors.red;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _WallpaperPageState extends State<WallpaperPage> {
 
   @override
   Widget build(BuildContext context) {
-    ChooseColorProvider colorProvider = new ChooseColorProvider(color!, context);
+    ChooseColorProvider colorProvider = new ChooseColorProvider(color, context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

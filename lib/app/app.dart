@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:wallpaper_app_flutter/localizations/app_localizations.dart';
+import 'package:wallpaper_app_flutter/pages/ringtone/premium_ringtone_screen.dart';
 import 'package:wallpaper_app_flutter/splash/splash_screen.dart';
 import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/utils/theme/theme.dart';
@@ -18,7 +19,6 @@ class MyApp extends StatelessWidget {
           : setLightTheme,
       supportedLocales: [
         Locale('en', 'US'),
-        Locale('az', 'AZ'),
         Locale('de', 'DE'),
         Locale('ru', 'RU'),
         Locale('tr', 'TR'),
@@ -28,10 +28,11 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
+     locale: Locale('en'),
       localeResolutionCallback: (locale, supportedLocales) {
         for (var supportedLocaleLanguage in supportedLocales) {
-          if (supportedLocaleLanguage.languageCode == locale!.languageCode &&
-              supportedLocaleLanguage.countryCode == locale.countryCode) {
+          if (supportedLocaleLanguage.languageCode == locale?.languageCode &&
+              supportedLocaleLanguage.countryCode == locale?.countryCode) {
             return supportedLocaleLanguage;
           }
         }

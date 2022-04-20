@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:logger/logger.dart';
@@ -10,17 +12,21 @@ class PremiumRingtoneZedgeCubit extends Cubit<PremiumRingtoneZedgeState> {
       : super(PremiumRingtoneZedgeInitial());
   final PremiumRingtoneRepository premiumRingtoneRepository;
 
-  List<PremimumRingtoneModel> premiumRingList = [];
+  int page = Random().nextInt(20);
 
-  void premiumRingtoneTrending(int page) async {
-    try {
-      emit(PremiumRingtoneZedgeLoading());
-      premiumRingList = await premiumRingtoneRepository.getTrending(page);
-      Logger().d("PremiumRingtoneCubit : " + premiumRingList.toString());
-      emit(PremiumRingtoneZedgeLoaded(premiumRingList));
-    } catch (e) {
-      emit(PremiumRingtoneZedgeError(
-          "Error : ${e.toString()}", e.hashCode.toString()));
+  void premiumRingtoneTrending() async {
+    if (state is PremiumRingtoneZedgeLoading) return;
+    final currentTState = state;
+    List<PremimumRingtoneModel?>? oldRingtones = <PremimumRingtoneModel>[];
+    if (currentTState is PremiumRingtoneZedgeLoaded) {
+      oldRingtones = currentTState.premiumModelList;
     }
+    emit(PremiumRingtoneZedgeLoading(oldRingtones, page == 1));
+    premiumRingtoneRepository.getTrending(page).then((newRingtones) {
+      page++;
+      final ringtones = (state as PremiumRingtoneZedgeLoading).premiumModelList;
+      ringtones!.addAll(newRingtones);
+      emit(PremiumRingtoneZedgeLoaded(ringtones));
+    });
   }
 }
