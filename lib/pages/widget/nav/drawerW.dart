@@ -125,7 +125,7 @@ class DrawerWidegts extends Drawer {
                     ),
                     child: Column(
                       children: <Widget>[
-                        MenuItem(
+                        DrawerMenuItem(
                           icon: Icons.music_note_outlined,
                           color: Color(0xff388e3c),
                           title: ApplicationLocalizations.of(context)!
@@ -139,7 +139,7 @@ class DrawerWidegts extends Drawer {
                             );
                           },
                         ),
-                        MenuItem(
+                        DrawerMenuItem(
                           color: Color(0xffff3d00),
                           icon: Icons.favorite,
                           title: ApplicationLocalizations.of(context)!
@@ -179,7 +179,7 @@ class DrawerWidegts extends Drawer {
                           indent: 12,
                           endIndent: 12,
                         ),
-                        MenuItem(
+                        DrawerMenuItem(
                           color: Colors.pink[400],
                           icon: Icons.settings,
                           title: ApplicationLocalizations.of(context)!
@@ -193,7 +193,7 @@ class DrawerWidegts extends Drawer {
                             );
                           },
                         ),
-                        MenuItem(
+                        DrawerMenuItem(
                           color: Color(0xffafb4b2),
                           icon: Icons.feedback,
                           title: ApplicationLocalizations.of(context)!
@@ -207,7 +207,7 @@ class DrawerWidegts extends Drawer {
                             );
                           },
                         ),
-                        MenuItem(
+                        DrawerMenuItem(
                           color: Provider.of<Settings>(context).isDarkMode
                               ? Colors.teal
                               : Colors.black,
@@ -225,7 +225,7 @@ class DrawerWidegts extends Drawer {
                           indent: 12,
                           endIndent: 12,
                         ),
-                        MenuItem(
+                        DrawerMenuItem(
                           color: Colors.indigo.shade400,
                           icon: Icons.my_library_books_sharp,
                           title: ApplicationLocalizations.of(context)!
@@ -241,7 +241,7 @@ class DrawerWidegts extends Drawer {
                           indent: 12,
                           endIndent: 12,
                         ),
-                        MenuItem(
+                        DrawerMenuItem(
                           color: Colors.amber.shade600,
                           icon: Icons.exit_to_app,
                           title: ApplicationLocalizations.of(context)!

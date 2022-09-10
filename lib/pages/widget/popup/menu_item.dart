@@ -3,13 +3,13 @@ import 'package:provider/provider.dart';
 import 'package:wallpaper_app_flutter/state/provider/theme_provider.dart';
 import 'package:wallpaper_app_flutter/widget/text/gradinet_text.dart';
 
-class MenuItem extends StatelessWidget {
+class DrawerMenuItem extends StatelessWidget {
   final IconData ?icon;
   final Color? color;
   final String ?title;
   final VoidCallback? onTap;
 
-  const MenuItem({Key? key, this.icon, this.title, this.onTap, this.color})
+  const DrawerMenuItem({Key? key, this.icon, this.title, this.onTap, this.color})
       : super(key: key);
 
   @override

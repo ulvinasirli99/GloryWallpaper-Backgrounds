@@ -44,7 +44,7 @@ class _FullImageState extends State<FullImage> {
   // AdmobInterstitial interstitialAd;
   GlobalKey<ScaffoldState> scfaffoldKey = GlobalKey<ScaffoldState>();
   List<Favorite> list = new List.empty(growable: true);
-  late PageController? pageController;
+  PageController? pageController;
   int photoIndex = 0;
   bool permission = false;
   bool isVisble = false;
@@ -85,6 +85,10 @@ class _FullImageState extends State<FullImage> {
   void initState() {
     super.initState();
     // _permissionRequest();
+    setState(() {
+      photoIndex = widget.imgIndex!;
+    });
+    pageController = PageController(initialPage: photoIndex);
     ImageDownloader.callback(onProgressUpdate: (String? imageId, int progress) {
       setState(() {
         _progress = progress;
@@ -145,13 +149,15 @@ class _FullImageState extends State<FullImage> {
 
   @override
   Widget build(BuildContext context) {
-    if (pageController == null) {
-      photoIndex = widget.imgIndex!;
-      imageList = widget.imgsList!;
-      pageController = PageController(
-        initialPage: photoIndex,
-      );
-    }
+    setState(() {
+      if (pageController == null) {
+        photoIndex = widget.imgIndex!;
+        imageList = widget.imgsList!;
+        pageController = PageController(
+          initialPage: photoIndex,
+        );
+      }
+    });
 
     return Scaffold(
       key: scfaffoldKey,
@@ -187,8 +193,8 @@ class _FullImageState extends State<FullImage> {
                                       ),
                                     );
                                   },
-                                  errorBuilder: (context, error, stacktrace) =>
-                                      Center(
+                                  errorBuilder:
+                                      (context, error, stacktrace) => Center(
                                           child: Icon(
                                     Icons.error,
                                     size: 40,
@@ -351,10 +357,10 @@ class _FullImageState extends State<FullImage> {
                 fabCloseIcon: Icon(Icons.wallet_membership_sharp),
                 children: <Widget>[
                   /*
-                  Todo This is line mage To addFavorite 
-                  Favorite Button 
+                  Todo This is line mage To addFavorite
+                  Favorite Button
                   Image To favoritw Is add or Image From favorite
-                  Delete iimage Provider 
+                  Delete iimage Provider
                 */
                   isFavorite == false
                       ? IconButton(

@@ -1,12 +1,10 @@
-import 'dart:io';
-import 'package:device_info/device_info.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wallpaper_app_flutter/pages/auth/login.dart';
 import 'package:wallpaper_app_flutter/pages/onboarding/components/bg.dart';
-import 'package:wallpaper_app_flutter/splash/splash_screen.dart';
 import 'package:wallpaper_app_flutter/pages/main/pages/wallpaper_page.dart';
 import 'package:wallpaper_app_flutter/widget/text/gradinet_text.dart';
 
@@ -21,7 +19,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   int _nOfpages = 3;
   int _currentPage = 0;
   PageController _controller = PageController(initialPage: 0);
-  DeviceInfoPlugin infoPlugin = DeviceInfoPlugin();
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   AndroidDeviceInfo? androidDeviceInfo;
   String? deviceModel;
   String? deviceSdkVersion;
@@ -29,7 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   getDeviceInfo() async {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-    deviceModel = androidInfo.model;
+    deviceModel = androidInfo.device;
     deviceSdkVersion = androidInfo.id;
     print('Running on ${androidInfo.model}');
   }
@@ -263,9 +261,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           minWidth: 100,
                           height: 45,
                           child: (_currentPage != _nOfpages - 1)
-                              ? OutlineButton(
-                                  shape: StadiumBorder(),
-                                  borderSide: BorderSide(color: Colors.white),
+                              ? OutlinedButton(
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(StadiumBorder()),
+                                    side: MaterialStateProperty.all(BorderSide(color: Colors.white)),
+                                  ),
                                   child: Text(
                                     'Continue',
                                     style: TextStyle(color: Colors.white),
@@ -298,52 +298,52 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                         buttonNextActivityStartButton();
                                       },
                                     ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (ctx) => LoginScreen(),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        width: double.infinity,
-                                        height: 50,
-                                        margin: EdgeInsets.only(
-                                          left: 35,
-                                          right: 35,
-                                        ),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(36),
-                                          border: Border.all(
-                                            width: 1.2,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                        child: Center(
-                                          child: GradientText(
-                                            text: 'Create Account',
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                Colors.green.shade400,
-                                                Colors.teal.shade200,
-                                                Colors.indigo.shade400,
-                                                Colors.purple.shade400,
-                                              ],
-                                            ),
-                                            style: TextStyle(
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                                    // const SizedBox(
+                                    //   height: 8,
+                                    // ),
+                                    // GestureDetector(
+                                    //   onTap: () {
+                                    //     Navigator.push(
+                                    //       context,
+                                    //       MaterialPageRoute(
+                                    //         builder: (ctx) => LoginScreen(),
+                                    //       ),
+                                    //     );
+                                    //   },
+                                    //   child: Container(
+                                    //     width: double.infinity,
+                                    //     height: 50,
+                                    //     margin: EdgeInsets.only(
+                                    //       left: 35,
+                                    //       right: 35,
+                                    //     ),
+                                    //     decoration: BoxDecoration(
+                                    //       borderRadius:
+                                    //           BorderRadius.circular(36),
+                                    //       border: Border.all(
+                                    //         width: 1.2,
+                                    //         color: Colors.white,
+                                    //       ),
+                                    //     ),
+                                    //     child: Center(
+                                    //       child: GradientText(
+                                    //         text: 'Create Account',
+                                    //         gradient: LinearGradient(
+                                    //           colors: [
+                                    //             Colors.green.shade400,
+                                    //             Colors.teal.shade200,
+                                    //             Colors.indigo.shade400,
+                                    //             Colors.purple.shade400,
+                                    //           ],
+                                    //         ),
+                                    //         style: TextStyle(
+                                    //           fontSize: 22,
+                                    //           fontWeight: FontWeight.w600,
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                         ),

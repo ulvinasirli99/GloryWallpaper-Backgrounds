@@ -164,8 +164,9 @@ class _HomeState extends State<Home>
                                   color:
                                       Provider.of<Settings>(context).isDarkMode
                                           ? colorlizer.getRandomColors()
-                                          : colorlizer.getRandomColors()!
-                                          .withOpacity(0.4),
+                                          : colorlizer
+                                              .getRandomColors()!
+                                              .withOpacity(0.4),
                                   child: Center(
                                     child: Text(
                                       "${strings[index].imageNames}",
@@ -274,7 +275,7 @@ class _HomeState extends State<Home>
                       context,
                       MaterialPageRoute(
                         builder: (ctx) => FullImage(
-                          imgUrl: photos[index].src!.large2X,
+                          imgUrl: photos[index].src!.large2X!,
                           imgIndex: index,
                           imgsList: photos,
                           //Bura onsa isdemir
